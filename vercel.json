@@ -1,0 +1,15 @@
+{
+  "github": {
+    "silent": true
+  },
+  "git": {
+    "deploymentEnabled": {
+      "main": true
+    }
+  },
+  "build": {
+    "env": {
+      "HUGO_VERSION": "0.139.3"
+    }
+  }
+}
