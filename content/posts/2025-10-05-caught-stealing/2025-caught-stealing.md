@@ -7,15 +7,15 @@ tags: ["Review", "Crime", "Thriller", "Austin Butler", "Zoë Kravitz", "Matt Smi
 categories: ["Film"]
 showToc: false
 cover:
-  image: "/posts/caugh-stealing/caughtStealing.jpg"
-  alt: "Austin Butler as Hank in a neon-lit bar scene"
+  image: "/posts/2025-10-05-caught-stealing/caughtStealing.jpg"
+  alt: "Caught Stealing (2024) movie poster with Austin Butler and ensemble cast on yellow background with bullet holes"
   caption: "Image courtesy of [Mabumbe](https://mabumbe.com/movies/titles/353027/caught-stealing)"
   relative: true
 description: "Starts hot, ends cold. A stylish burst of brutality that loses its soul and stumbles into a one-note finish."
 summary: "Starts hot, ends cold. A stylish burst of brutality that loses its soul and stumbles into a one-note finish."
 ---
 
-![Austin Butler as Hank, a weary bartender leaning against a neon-lit bar counter with a distant, pensive expression; cramped bar interior with blurred neon signs and out-of-focus patrons in the background; no readable text visible; somber, tense atmosphere](/posts/caugh-stealing/caughtStealing.jpg)
+![Austin Butler as Hank, a weary bartender leaning against a neon-lit bar counter with a distant, pensive expression; cramped bar interior with blurred neon signs and out-of-focus patrons in the background; no readable text visible; somber, tense atmosphere](/posts/2025-10-05-caught-stealing/caughtStealing.jpg)
 
 Fucked life and fucked choices. For a while, I thought maybe that was the point — a reflection of how life grinds people down with its unrelenting blows — but alas, no.
 
