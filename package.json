@@ -1,0 +1,7 @@
+{
+  "name": "reel-refractions",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "git submodule update --init --recursive && hugo --gc --minify"
+  }
+}
