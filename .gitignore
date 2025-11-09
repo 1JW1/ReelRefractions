@@ -1,0 +1,54 @@
+# Hugo build output
+/public/
+/resources/_gen/
+/resources/_gen_public/
+hugo_stats.json
+.hugo_build.lock
+
+# Node.js / frontend tooling
+node_modules/
+npm-debug.log*
+yarn-error.log
+.pnpm-debug.log
+.pnp.*
+
+# Local environment / secrets
+.env
+.env.local
+.env.*.local
+
+# Editor/IDE
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# macOS / Windows
+.DS_Store
+Thumbs.db
+
+# Temp / swap / caches
+*.swp
+*~
+*.tmp
+.cache/
+.sass-cache/
+dist/
+build/
+
+# Dependency / package artifacts
+vendor/
+.bundle/
+coverage/
+coverage-final.json
+
+# Logs
+logs/
+*.log
+
+# Python virtualenvs (if any)
+venv/
+.envrc
+.pytest_cache/
+
+# Keep lockfiles (package-lock.json, yarn.lock) - do not ignore
