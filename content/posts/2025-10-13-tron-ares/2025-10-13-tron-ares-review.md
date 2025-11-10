@@ -35,7 +35,7 @@ And that optimism matters. In a year when so many films have turned AI into the 
 
 Not everything clicks, however. The subplot involving CEO Eve Kim and her sister lacks emotional punch, even if it fits neatly within the story’s flow. Her sidekick, Seth, meanwhile, offers weak comic relief. Thankfully, he’s not *Ned-from-Spider-Man* levels of irritating, but he comes close.  
 
-If there’s one lingering sadness, it’s the sense that this might be the last time we enter the Grid for a while. If *Ares* doesn’t perform well at the box office *(update: it didn’t)*, a sequel exploring the consequences of intelligence programs may never materialize *(update: it looks like it won’t)*. And that would be unfortunate, because I’d like to see where this story goes next.  
+If there’s one lingering sadness, it’s the sense that this might be the last time we enter the Grid for a while. If *Ares* doesn’t perform well at the box office *([UPDATE: it didn’t](https://www.hollywoodreporter.com/movies/movie-news/tron-hits-the-skids-box-office-opening-1236398953/))*, a sequel exploring the consequences of intelligence programs may never materialize *([UPDATE: it probably won’t](https://www.hollywoodreporter.com/movies/movie-news/jared-leto-tron-ares-box-office-1236401068/))*. And that would be unfortunate, because I’d like to see where this story goes next.  
 
 ---
 
