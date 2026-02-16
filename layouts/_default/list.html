@@ -40,15 +40,15 @@
 <div class="post-feed">
 {{- range $index, $page := $paginator.Pages }}
 <article class="post-card">
-  {{- $isHidden := (.Param "cover.hiddenInList") | default (.Param "cover.hidden") | default false }}
+  {{- $isHidden := ($page.Param "cover.hiddenInList") | default ($page.Param "cover.hidden") | default false }}
   {{- if not $isHidden }}
-  {{- with .Params.cover.image }}
+  {{- with $page.Params.cover.image }}
   <div class="post-card-cover">
-    {{- $img := $.Resources.GetMatch . }}
+    {{- $img := $page.Resources.GetMatch . }}
     {{- if $img }}
-    <img src="{{ $img.RelPermalink }}" alt="{{ $.Params.cover.alt | default $.Title }}" loading="lazy" />
+    <img src="{{ $img.RelPermalink }}" alt="{{ $page.Params.cover.alt | default $page.Title }}" loading="lazy" />
     {{- else }}
-    <img src="{{ . | absURL }}" alt="{{ $.Params.cover.alt | default $.Title }}" loading="lazy" />
+    <img src="{{ . | absURL }}" alt="{{ $page.Params.cover.alt | default $page.Title }}" loading="lazy" />
     {{- end }}
   </div>
   {{- end }}
