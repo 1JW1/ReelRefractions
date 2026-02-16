@@ -1,7 +1,14 @@
 {
   "name": "reel-refractions",
   "version": "1.0.0",
+  "_comment_preview": "Run `npm run preview` to build and serve the `public/` directory for a production preview.",
   "scripts": {
-    "build": "git submodule update --init --recursive && hugo --gc --minify"
+    "dev": "hugo server -D",
+    "build": "git submodule update --init --recursive && hugo --gc --minify",
+    "start": "hugo --gc --minify",
+    "preview": "npm run build && serve public -l 3000"
+  },
+  "devDependencies": {
+    "serve": "^14.1.2"
   }
 }
