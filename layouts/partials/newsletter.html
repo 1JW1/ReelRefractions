@@ -1,0 +1,16 @@
+{{/*
+  Buttondown Newsletter Signup
+  ----------------------------
+  Configure by setting params.buttondownURL in hugo.yaml to your
+  Buttondown embed/subscribe URL after account setup.
+*/}}
+{{ if .Site.Params.buttondownURL }}
+<div class="newsletter-signup">
+    <h3>Stay Updated</h3>
+    <p>Get new reviews in your inbox.</p>
+    <form class="newsletter-form" action="{{ .Site.Params.buttondownURL }}" method="post" target="_blank">
+        <input type="email" name="email" placeholder="you@example.com" required aria-label="Email address for newsletter">
+        <button type="submit">Subscribe</button>
+    </form>
+</div>
+{{ end }}

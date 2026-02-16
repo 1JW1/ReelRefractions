@@ -1,0 +1,31 @@
+{{- define "main" }}
+
+<div class="vault-page">
+  <h1 class="vault-title">The Vault</h1>
+
+  {{- $pages := where site.RegularPages "Type" "in" site.Params.mainSections }}
+
+  {{- range $pages.GroupByPublishDate "2006" }}
+  {{- if ne .Key "0001" }}
+  <div class="vault-year">
+    <h2 class="screenplay-heading">INT. {{ .Key }} &mdash; DAY</h2>
+
+    {{- range .Pages.GroupByDate "January" }}
+    <h3 class="screenplay-month">{{ .Key | upper }}</h3>
+    <div class="screenplay-action">
+      {{- range .Pages }}
+      {{- if eq .Kind "page" }}
+      <p class="vault-entry">
+        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+        <span class="vault-date">{{ .Date.Format "January 2" }}</span>
+      </p>
+      {{- end }}
+      {{- end }}
+    </div>
+    {{- end }}
+  </div>
+  {{- end }}
+  {{- end }}
+</div>
+
+{{- end }}{{/* end main */}}

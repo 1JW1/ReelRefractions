@@ -51,4 +51,7 @@ venv/
 .envrc
 .pytest_cache/
 
+# Staging directory for draft posts
+staging/
+
 # Keep lockfiles (package-lock.json, yarn.lock) - do not ignore

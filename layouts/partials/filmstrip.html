@@ -1,0 +1,28 @@
+{{/* Film strip decorative sidebar - pure inline SVG, no JS, no images */}}
+<div class="filmstrip" aria-hidden="true" role="presentation">
+    <svg class="filmstrip-svg" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none">
+        <defs>
+            <pattern id="filmstrip-pattern" x="0" y="0" width="100%" height="80" patternUnits="userSpaceOnUse">
+                {{/* Left perforation holes */}}
+                <rect x="4" y="8" width="8" height="12" rx="2" ry="2" fill="#4A2E14" />
+                <rect x="4" y="28" width="8" height="12" rx="2" ry="2" fill="#4A2E14" />
+                <rect x="4" y="48" width="8" height="12" rx="2" ry="2" fill="#4A2E14" />
+                <rect x="4" y="68" width="8" height="12" rx="2" ry="2" fill="#4A2E14" />
+
+                {{/* Right perforation holes */}}
+                <rect x="88%" y="8" width="8" height="12" rx="2" ry="2" fill="#4A2E14" />
+                <rect x="88%" y="28" width="8" height="12" rx="2" ry="2" fill="#4A2E14" />
+                <rect x="88%" y="48" width="8" height="12" rx="2" ry="2" fill="#4A2E14" />
+                <rect x="88%" y="68" width="8" height="12" rx="2" ry="2" fill="#4A2E14" />
+
+                {{/* Centre frame blocks */}}
+                <rect x="18" y="4" width="64%" height="32" rx="1" ry="1" fill="#7A5530" opacity="0.4" />
+                <rect x="18" y="44" width="64%" height="32" rx="1" ry="1" fill="#7A5530" opacity="0.4" />
+            </pattern>
+        </defs>
+        {{/* Film strip background */}}
+        <rect width="100%" height="100%" fill="#6B4226" />
+        {{/* Perforation overlay pattern */}}
+        <rect width="100%" height="100%" fill="url(#filmstrip-pattern)" />
+    </svg>
+</div>

@@ -1,0 +1,26 @@
+{{/*
+  Remark42 Comments Partial
+  -------------------------
+  Self-hosted on Railway via Docker. Configure by setting params.remark42URL
+  in hugo.yaml to your Remark42 instance URL (e.g. https://remark42.yourdomain.com).
+  OAuth providers: Google (required). No Twitter/X.
+*/}}
+{{ if .Site.Params.remark42URL }}
+<div class="remark42-section">
+    <h3 style="font-family: var(--font-heading); margin-bottom: 1rem;">Comments</h3>
+    <div id="remark42"></div>
+    <script>
+        var remark_config = {
+            host: '{{ .Site.Params.remark42URL }}',
+            site_id: 'reel-refractions',
+            components: ['embed'],
+            theme: 'dark',
+            locale: 'en'
+        };
+        !function(e,n){for(var o=0;o<e.length;o++){var r=n.createElement("script"),c=".js",d=n.head||n.body;
+        "noModule"in r?(r.type="module",c=".mjs"):r.async=!0;r.defer=!0;r.src=remark_config.host+"/web/"+e[o]+c;d.appendChild(r)}}
+        (remark_config.components||["embed"],document);
+    </script>
+    <noscript>Please enable JavaScript to view comments.</noscript>
+</div>
+{{ end }}

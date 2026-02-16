@@ -2,20 +2,18 @@
 title: "Predator: Badlands (2025) — No Spoilers"
 date: 2025-11-09T18:00:00Z
 draft: false
-author:
+author: "Erwin Bernard"
 tags: ["Predator", "Sci-Fi", "Franchise Fatigue", "Action", "Review", "CGI Criticism"]
 categories: ["Film Reviews"]
 showToc: false
 cover:
-    image: "/posts/2025-11-09-predator-badlands/badlandsposter.jpg"
-    alt: "Predator: Badlands cover image placeholder"
-    caption: "Image courtesy of [Mabumbe](https://mabumbe.com/movies/titles/dG1kYnxtb3ZpZXwxMjQyODk4/predator-badlands)"
-    relative: true
+  image: "badlandsposter.jpg"
+  alt: "Silhouetted Predator warrior standing atop rocky outcrop against blood-red sunset sky, bio-mask gleaming, dreadlocks flowing in wind, holding spear in menacing pose"
+  caption: "Image courtesy of [Mabumbe](https://mabumbe.com/movies/titles/dG1kYnxtb3ZpZXwxMjQyODk4/predator-badlands)"
+  relative: true
 description: "Predator: Badlands wants to be feral and heartfelt yet lands tame and predictable."
 summary: "Predator: Badlands wants to be feral and heartfelt yet lands tame and predictable."
 ---
-
-![Silhouetted Predator warrior standing atop rocky outcrop against blood-red sunset sky, bio-mask gleaming, dreadlocks flowing in wind, holding spear in menacing pose](/posts/2025-11-09-predator-badlands/badlandsposter.jpg)
 
 Predator has been having something of a revival lately. I recently watched *Predator: Killer of Killers*, an impressive anthology series that pitted warriors from different eras against Predator hunters – stylish, creative, and surprisingly thoughtful. Add to that *Prey* (2022), a surprise Hulu hit that deserved a theatrical release, and it seemed like the franchise was finally regaining its bite. So when I heard about *Predator: Badlands*, I expected a story with the same care and imagination, backed by visceral fight sequences to kick off the weekend. Unfortunately, it doesn’t quite deliver on that promise.
 

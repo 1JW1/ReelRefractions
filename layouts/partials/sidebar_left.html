@@ -1,0 +1,24 @@
+{{- partial "filmstrip.html" . -}}
+
+<div class="sidebar-left-content">
+    <div class="sidebar-brand">
+        <a href="{{ "" | absLangURL }}" class="sidebar-site-title">{{ site.Title }}</a>
+    </div>
+
+    <nav class="sidebar-nav" aria-label="Main navigation">
+        {{- range site.Menus.main }}
+        <a href="{{ .URL | absLangURL }}" class="sidebar-nav-link{{ if $.IsMenuCurrent "main" . }} active{{ end }}">
+            {{ .Name }}
+        </a>
+        {{- end }}
+    </nav>
+
+    <div class="sidebar-social">
+        {{- $letterboxd := resources.Get "icons/letterboxd.svg" }}
+        {{- if $letterboxd }}
+        <a href="https://letterboxd.com/" target="_blank" rel="noopener noreferrer" aria-label="Letterboxd" class="sidebar-icon-link">
+            {{ $letterboxd.Content | safeHTML }}
+        </a>
+        {{- end }}
+    </div>
+</div>
