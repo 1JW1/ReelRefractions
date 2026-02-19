@@ -17,7 +17,7 @@
   --border-color: rgba(232, 220, 200, 0.15);
   --tag-bg: #0A3050;
   --tag-hover: #124060;
-  --font-heading: 'Special Elite', 'Courier Prime', cursive;
+  --font-heading: 'Playfair Display', Georgia, serif;
   --font-body: 'Source Serif 4', Georgia, 'Times New Roman', serif;
   --font-mono: 'Courier Prime', 'Courier New', monospace;
 }
