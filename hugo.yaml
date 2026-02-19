@@ -6,7 +6,7 @@ pagination:
 theme: PaperMod
 
 enableRobotsTXT: true
-enableGitInfo: true
+enableGitInfo: false
 buildDrafts: false
 buildFuture: false
 buildExpired: false
@@ -56,8 +56,8 @@ params:
   buttondownURL: ""
 
   assets:
-    theme_color: "#003B6F"
-    msapplication_TileColor: "#003B6F"
+    theme_color: "#001B2E"
+    msapplication_TileColor: "#001B2E"
 
   label:
     text: "Reel Refractions"

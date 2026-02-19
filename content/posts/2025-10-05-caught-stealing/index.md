@@ -4,7 +4,7 @@ date: 2025-10-05T19:00:00+00:00
 draft: false
 author: "Erwin Bernard"
 tags: ["Review", "Crime", "Thriller", "Austin Butler", "Zoë Kravitz", "Matt Smith", "Regina King", "Bad Bunny"]
-categories: ["Film"]
+categories: ["Film Reviews"]
 showToc: false
 cover:
   image: "caughtStealing.jpg"

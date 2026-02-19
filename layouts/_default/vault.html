@@ -15,10 +15,10 @@
     <div class="screenplay-action">
       {{- range .Pages }}
       {{- if eq .Kind "page" }}
-      <p class="vault-entry">
-        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+      <div class="vault-entry">
+        <a href="{{ .RelPermalink }}" class="vault-entry-title">{{ .Title }}</a>
         <span class="vault-date">{{ .Date.Format "January 2" }}</span>
-      </p>
+      </div>
       {{- end }}
       {{- end }}
     </div>
