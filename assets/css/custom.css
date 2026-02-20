@@ -696,7 +696,7 @@ a:hover {
   white-space: nowrap;
   flex-shrink: 0;
   text-align: right;
-  min-width: 10rem;
+  width: 10rem;
 }
 
 /* ===== SEARCH ===== */
