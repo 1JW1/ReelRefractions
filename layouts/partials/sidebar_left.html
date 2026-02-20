@@ -5,13 +5,13 @@
         <a href="{{ "" | absLangURL }}" class="sidebar-site-title">{{ site.Title }}</a>
     </div>
 
-    {{/* Sidebar image — replace src with your own square image (recommended: 160x160px) */}}
-    {{/* Place the image at: assets/images/sidebar-avatar.jpg (or .png) */}}
+    {{/* Muybridge's galloping horse — the birth of cinema (1878) */}}
     <div class="sidebar-avatar">
-        {{- $avatar := resources.Get "images/sidebar-avatar.jpg" }}
+        {{- $avatar := resources.Get "images/sidebar-avatar.gif" }}
+        {{- if not $avatar }}{{ $avatar = resources.Get "images/sidebar-avatar.jpg" }}{{ end }}
         {{- if not $avatar }}{{ $avatar = resources.Get "images/sidebar-avatar.png" }}{{ end }}
         {{- if $avatar }}
-        <img src="{{ $avatar.RelPermalink }}" alt="{{ site.Title }}" width="160" height="160" />
+        <img src="{{ $avatar.RelPermalink }}" alt="Muybridge's galloping horse — the birth of cinema" width="184" height="120" />
         {{- else }}
         <div class="sidebar-avatar-placeholder" aria-hidden="true"></div>
         {{- end }}

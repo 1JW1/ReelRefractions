@@ -206,11 +206,11 @@ a:hover {
 }
 
 .sidebar-avatar img {
-  width: 130px;
-  height: 130px;
+  width: 180px;
+  height: auto;
   border-radius: 8px;
-  object-fit: cover;
   border: 1px solid var(--border-color);
+  filter: sepia(0.4) brightness(0.9);
 }
 
 .sidebar-avatar-placeholder {
