@@ -1,0 +1,30 @@
+{{- partial "filmstrip.html" . -}}
+
+<div class="sidebar-left-content">
+    <div class="sidebar-brand">
+        <a href="{{ "" | absLangURL }}" class="sidebar-site-title">{{ site.Title }}</a>
+    </div>
+
+    {{/* Muybridge's galloping horse — the birth of cinema (1878) */}}
+    {{/* Animated GIF on list pages, static freeze frame on single posts */}}
+    <div class="sidebar-avatar">
+        {{- partial "sidebar_avatar.html" . }}
+    </div>
+
+    <nav class="sidebar-nav" aria-label="Main navigation">
+        {{- range site.Menus.main }}
+        <a href="{{ .URL | absLangURL }}" class="sidebar-nav-link{{ if $.IsMenuCurrent "main" . }} active{{ end }}">
+            {{ .Name }}
+        </a>
+        {{- end }}
+    </nav>
+
+    <div class="sidebar-social">
+        {{- $letterboxd := resources.Get "icons/letterboxd.svg" }}
+        {{- if $letterboxd }}
+        <a href="https://letterboxd.com/1jw1/" target="_blank" rel="noopener noreferrer" aria-label="Letterboxd" class="sidebar-icon-link">
+            {{ $letterboxd.Content | safeHTML }}
+        </a>
+        {{- end }}
+    </div>
+</div>

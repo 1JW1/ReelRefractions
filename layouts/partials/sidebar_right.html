@@ -1,0 +1,27 @@
+<div class="sidebar-right-content">
+    {{/* Recent Posts — sorted by front matter date */}}
+    <section class="sidebar-section">
+        <h3 class="sidebar-heading">Recent Posts</h3>
+        {{- $pages := where site.RegularPages "Section" "posts" }}
+        {{- $sorted := sort $pages ".Date" "desc" }}
+        {{- range first 5 $sorted }}
+        <a href="{{ .RelPermalink }}" class="sidebar-recent-post">
+            <span class="sidebar-recent-title">{{ .Title }}</span>
+            <time class="sidebar-recent-date" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time>
+        </a>
+        {{- end }}
+    </section>
+
+    {{/* Trending Tags */}}
+    <section class="sidebar-section">
+        <h3 class="sidebar-heading">Trending Tags</h3>
+        <div class="sidebar-tags">
+            {{- range site.Taxonomies.tags.ByCount | first 10 }}
+            <a href="{{ .Page.RelPermalink }}" class="tag-chip">{{ .Page.Title }} <sup>{{ .Count }}</sup></a>
+            {{- end }}
+        </div>
+    </section>
+
+    {{/* Newsletter */}}
+    {{- partial "newsletter.html" . -}}
+</div>

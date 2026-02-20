@@ -1,0 +1,44 @@
+{{- define "main" }}
+
+{{- if .Title }}
+<header class="page-header">
+    <h1>{{ .Title }}</h1>
+    {{- if .Description }}
+    <div class="post-description">
+        {{ .Description }}
+    </div>
+    {{- end }}
+</header>
+{{- end }}
+
+{{- if eq .Data.Singular "category" }}
+{{/* Categories: rendered as larger cards */}}
+<div class="category-list">
+    {{- range $key, $value := .Data.Terms.Alphabetical }}
+    {{- $name := .Name }}
+    {{- $count := .Count }}
+    {{- with site.GetPage (printf "/%s/%s" $.Type $name) }}
+    <a href="{{ .Permalink }}" class="category-card">
+        <div class="category-card-title">{{ .Name }}</div>
+        <div class="category-card-count">{{ $count }} {{ if eq $count 1 }}post{{ else }}posts{{ end }}</div>
+    </a>
+    {{- end }}
+    {{- end }}
+</div>
+
+{{- else }}
+{{/* Tags: rendered as styled chips */}}
+<div class="sidebar-tags" style="gap: 0.6rem;">
+    {{- range $key, $value := .Data.Terms.Alphabetical }}
+    {{- $name := .Name }}
+    {{- $count := .Count }}
+    {{- with site.GetPage (printf "/%s/%s" $.Type $name) }}
+    <a href="{{ .Permalink }}" class="tag-chip" style="font-size: 0.95rem; padding: 0.45rem 1rem;">
+        {{ .Name }} <sup>{{ $count }}</sup>
+    </a>
+    {{- end }}
+    {{- end }}
+</div>
+{{- end }}
+
+{{- end }}{{/* end main */}}

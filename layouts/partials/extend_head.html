@@ -1,0 +1,19 @@
+{{/* Self-hosted font preloads — most critical weights only */}}
+<link rel="preload" href="/fonts/source-serif-4-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/playfair-display-700.woff2" as="font" type="font/woff2" crossorigin>
+
+{{/* Custom CSS */}}
+{{ $css := resources.Get "css/custom.css" | minify | fingerprint }}
+<link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}" crossorigin="anonymous">
+
+{{/* Preload hero cover image on single posts */}}
+{{- if and .IsPage (not .IsHome) .Params.cover.image }}
+  {{- $pageBundleCover := (.Resources.ByType "image").GetMatch (printf "*%s*" .Params.cover.image) }}
+  {{- if $pageBundleCover }}
+    {{- $preloadImg := $pageBundleCover.Resize "720x webp" }}
+    <link rel="preload" as="image" type="image/webp" href="{{ $preloadImg.Permalink }}">
+  {{- end }}
+{{- end }}
+
+{{/* Vercel Analytics */}}
+<script defer src="/_vercel/insights/script.js"></script>

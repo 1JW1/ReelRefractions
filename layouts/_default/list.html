@@ -1,0 +1,114 @@
+{{- define "main" }}
+
+{{- if (and site.Params.profileMode.enabled .IsHome) }}
+{{- partial "index_profile.html" . }}
+{{- else }}
+
+{{- if not .IsHome | and .Title }}
+<header class="page-header">
+  {{- partial "breadcrumbs.html" . }}
+  <h1>{{ .Title }}</h1>
+  {{- if .Description }}
+  <div class="post-description">
+    {{ .Description | markdownify }}
+  </div>
+  {{- end }}
+</header>
+{{- end }}
+
+{{- if .Content }}
+<div class="post-content">
+  {{- if not (.Param "disableAnchoredHeadings") }}
+  {{- partial "anchored_headings.html" .Content -}}
+  {{- else }}{{ .Content }}{{ end }}
+</div>
+{{- end }}
+
+{{- $pages := union .RegularPages .Sections }}
+
+{{- if .IsHome }}
+{{- $pages = where site.RegularPages "Type" "in" site.Params.mainSections }}
+{{- $pages = where $pages "Params.hiddenInHomeList" "!=" "true" }}
+{{- end }}
+
+{{- $paginator := .Paginate $pages }}
+
+{{- if and .IsHome site.Params.homeInfoParams (eq $paginator.PageNumber 1) }}
+{{- partial "home_info.html" . }}
+{{- end }}
+
+<div class="post-feed">
+{{- range $index, $page := $paginator.Pages }}
+<article class="post-card">
+  {{- $isHidden := ($page.Param "cover.hiddenInList") | default ($page.Param "cover.hidden") | default false }}
+  {{- if not $isHidden }}
+  {{- with $page.Params.cover.image }}
+  <div class="post-card-cover">
+    {{- $img := $page.Resources.GetMatch . }}
+    {{- $alt := $page.Params.cover.alt | default $page.Title }}
+    {{- if $img }}
+      {{- $sizes := slice "360" "480" "720" "1080" }}
+      {{- $processable := slice "jpg" "jpeg" "png" "tif" "bmp" "gif" "webp" }}
+      {{- if and (in $processable $img.MediaType.SubType) hugo.IsExtended }}
+      <img loading="lazy" decoding="async"
+          srcset='{{- range $size := $sizes -}}
+                    {{- if ge $img.Width $size -}}
+                      {{ ($img.Resize (printf "%sx webp" $size)).RelPermalink }} {{ $size }}w,
+                    {{- end -}}
+                  {{- end -}}
+                  {{ $img.RelPermalink }} {{ $img.Width }}w'
+          sizes="(min-width: 1100px) 600px, (min-width: 768px) 50vw, 100vw"
+          src="{{ ($img.Resize "720x webp").RelPermalink }}"
+          width="{{ $img.Width }}" height="{{ $img.Height }}"
+          alt="{{ $alt }}" />
+      {{- else }}
+      <img loading="lazy" decoding="async" src="{{ $img.RelPermalink }}" alt="{{ $alt }}" />
+      {{- end }}
+    {{- else }}
+    <img loading="lazy" decoding="async" src="{{ . | absURL }}" alt="{{ $alt }}" />
+    {{- end }}
+  </div>
+  {{- end }}
+  {{- end }}
+  <div class="post-card-body">
+    <h2 class="post-card-title">
+      <a href="{{ .Permalink }}">{{ .Title }}</a>
+    </h2>
+    <div class="post-card-meta">
+      <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format (site.Params.DateFormat | default "January 2, 2006") }}</time>
+      {{- if site.Params.ShowReadingTime }}
+      <span class="post-card-separator">&middot;</span>
+      <span>{{ .ReadingTime }} min read</span>
+      {{- end }}
+    </div>
+    {{- if .Description }}
+    <p class="post-card-description">{{ .Description }}</p>
+    {{- else if .Summary }}
+    <p class="post-card-description">{{ .Summary | plainify | truncate 150 }}</p>
+    {{- end }}
+  </div>
+  <a class="post-card-link" aria-label="Read {{ .Title | plainify }}" href="{{ .Permalink }}"></a>
+</article>
+{{- end }}
+</div>
+
+{{- if gt $paginator.TotalPages 1 }}
+<footer class="page-footer">
+  <nav class="pagination">
+    {{- if $paginator.HasPrev }}
+    <a class="prev" href="{{ $paginator.Prev.URL | absURL }}">
+      &laquo;&nbsp;{{ i18n "prev_page" | default "Previous" }}
+    </a>
+    {{- end }}
+    {{- if $paginator.HasNext }}
+    <a class="next" href="{{ $paginator.Next.URL | absURL }}">
+      {{ i18n "next_page" | default "Next" }}&nbsp;&raquo;
+    </a>
+    {{- end }}
+  </nav>
+</footer>
+{{- end }}
+
+{{- end }}
+
+{{- end }}{{- /* end main */ -}}

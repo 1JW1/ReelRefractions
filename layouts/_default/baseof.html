@@ -1,0 +1,60 @@
+{{- if lt hugo.Version "0.146.0" }}
+{{- errorf "=> hugo v0.146.0 or greater is required for hugo-PaperMod to build " }}
+{{- end -}}
+
+<!DOCTYPE html>
+{{- $theme := site.Params.defaultTheme | default "auto" }}
+{{- if eq $theme "dark" }}
+<html lang="{{ site.Language }}" dir="{{ .Language.LanguageDirection | default "auto" }}" data-theme="dark">
+{{- else if eq $theme "light" }}
+<html lang="{{ site.Language }}" dir="{{ .Language.LanguageDirection | default "auto" }}" data-theme="light">
+{{- else }}
+<html lang="{{ site.Language }}" dir="{{ .Language.LanguageDirection | default "auto" }}" data-theme="auto">
+{{- end }}
+
+<head>
+    {{- partial "head.html" . }}
+</head>
+
+<body class="{{ if (or (ne .Kind "page") (eq .Layout "archives") (eq .Layout "search") (eq .Layout "vault")) }}list{{ end }}" id="top">
+    <a href="#main-content" class="skip-link">Skip to content</a>
+
+    {{/* Mobile navigation - hidden on desktop */}}
+    <nav class="mobile-nav" aria-label="Mobile navigation">
+        <div class="mobile-nav-header">
+            <a href="{{ "" | absLangURL }}" class="mobile-site-title">{{ site.Title }}</a>
+            <button class="hamburger" aria-expanded="false" aria-controls="mobile-menu" aria-label="Toggle menu">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+        </div>
+        <div id="mobile-menu" class="mobile-menu" hidden>
+            <div class="mobile-menu-avatar">
+                {{- partial "sidebar_avatar.html" . }}
+            </div>
+            {{- range site.Menus.main }}
+            <a href="{{ .URL | absLangURL }}" class="mobile-menu-link{{ if $.IsMenuCurrent "main" . }} active{{ end }}">{{ .Name }}</a>
+            {{- end }}
+        </div>
+    </nav>
+
+    {{/* Three-column layout */}}
+    <div class="site-wrapper">
+        <aside class="sidebar-left" aria-label="Site navigation">
+            {{- partial "sidebar_left.html" . -}}
+        </aside>
+
+        <main id="main-content" class="main">
+            {{- block "main" . }}{{ end }}
+        </main>
+
+        <aside class="sidebar-right" aria-label="Sidebar">
+            {{- partial "sidebar_right.html" . -}}
+        </aside>
+    </div>
+
+    {{ partialCached "footer.html" . .Layout .Kind (.Param "hideFooter") (.Param "ShowCodeCopyButtons") -}}
+</body>
+
+</html>

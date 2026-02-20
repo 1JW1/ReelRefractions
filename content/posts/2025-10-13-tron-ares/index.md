@@ -2,20 +2,18 @@
 title: "Tron: Ares (2025) — No Spoilers"
 date: 2025-10-13T23:00:00Z
 draft: false
-author:
+author: "Erwin Bernard"
 tags: ["Tron", "Sci-Fi", "Action", "AI", "Franchise Revival", "Review"]
 categories: ["Film Reviews"]
 showToc: false
 cover:
-    image: "/posts/2025-10-13-tron-ares/TronAres.jpg"
-    alt: "A digital warrior stands beside a glowing red light cycle as neon light bleeds into the real world, flooding the city street with surreal crimson haze."
-    caption: "Image courtesy of [Mabumbe](https://mabumbe.com/movies/titles/dG1kYnxtb3ZpZXw1MzM1MzM=/tron-ares)"
-    relative: true
+  image: "TronAres.jpg"
+  alt: "A digital warrior stands beside a glowing red light cycle as neon light bleeds into the real world, flooding the city street with surreal crimson haze."
+  caption: "Image courtesy of [Mabumbe](https://mabumbe.com/movies/titles/dG1kYnxtb3ZpZXw1MzM1MzM=/tron-ares)"
+  relative: true
 description: "Tron: Ares is the sleek, optimistic sequel Tron Legacy wished it could be—less doomsday, more digital dream."
 summary: "Tron: Ares is the sleek, optimistic sequel Tron Legacy wished it could be—less doomsday, more digital dream."
 ---
-
-![A digital warrior stands silhouetted against a glowing neon backdrop, wearing sleek armor that pulses with blue circuit patterns. Their light cycle hovers nearby, casting a soft crimson glow that merges with the surrounding city architecture, creating an ethereal blend of digital and physical worlds](/posts/2025-10-13-tron-ares/TronAres.jpg)
 
 Before seeing *Tron: Ares*, I tried to rewatch *Tron: Legacy* but stopped about 30 minutes in. The acting from the lead was stiff, and the plot felt tedious despite the impressive visuals. Needless to say, I was worried heading into the *Ares* screening.  
 

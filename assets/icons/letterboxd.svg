@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+  <title>Letterboxd</title>
+  <!-- Letterboxd logo: three overlapping colored dots -->
+  <circle cx="6" cy="12" r="5" fill="#00E054"/>
+  <circle cx="12" cy="12" r="5" fill="#FF8000" opacity="0.85"/>
+  <circle cx="18" cy="12" r="5" fill="#40BCF4"/>
+  <!-- Overlap blending areas -->
+  <path d="M9.5 8.2A5 5 0 0 1 11 12a5 5 0 0 1-1.5 3.8A5 5 0 0 1 8 12a5 5 0 0 1 1.5-3.8z" fill="#88D840" opacity="0.8"/>
+  <path d="M14.5 8.2A5 5 0 0 1 16 12a5 5 0 0 1-1.5 3.8A5 5 0 0 1 13 12a5 5 0 0 1 1.5-3.8z" fill="#85D4E8" opacity="0.8"/>
+</svg>
