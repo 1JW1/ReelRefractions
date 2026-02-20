@@ -6,15 +6,9 @@
     </div>
 
     {{/* Muybridge's galloping horse — the birth of cinema (1878) */}}
+    {{/* Animated GIF on list pages, static freeze frame on single posts */}}
     <div class="sidebar-avatar">
-        {{- $avatar := resources.Get "images/sidebar-avatar.gif" }}
-        {{- if not $avatar }}{{ $avatar = resources.Get "images/sidebar-avatar.jpg" }}{{ end }}
-        {{- if not $avatar }}{{ $avatar = resources.Get "images/sidebar-avatar.png" }}{{ end }}
-        {{- if $avatar }}
-        <img src="{{ $avatar.RelPermalink }}" alt="Muybridge's galloping horse — the birth of cinema" width="184" height="120" />
-        {{- else }}
-        <div class="sidebar-avatar-placeholder" aria-hidden="true"></div>
-        {{- end }}
+        {{- partial "sidebar_avatar.html" . }}
     </div>
 
     <nav class="sidebar-nav" aria-label="Main navigation">

@@ -1,0 +1,12 @@
+{{- $avatar := resources.Get "images/sidebar-avatar.gif" }}
+{{- if not $avatar }}{{ $avatar = resources.Get "images/sidebar-avatar.jpg" }}{{ end }}
+{{- if not $avatar }}{{ $avatar = resources.Get "images/sidebar-avatar.png" }}{{ end }}
+{{- if $avatar }}
+    {{- $src := $avatar }}
+    {{- if eq .Kind "page" }}
+        {{- $src = $avatar.Resize "184x jpg" }}
+    {{- end }}
+    <img src="{{ $src.RelPermalink }}" alt="Muybridge's galloping horse — the birth of cinema" width="184" height="120" />
+{{- else }}
+    <div class="sidebar-avatar-placeholder" aria-hidden="true"></div>
+{{- end }}

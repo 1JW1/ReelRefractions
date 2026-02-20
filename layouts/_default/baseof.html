@@ -31,12 +31,7 @@
         </div>
         <div id="mobile-menu" class="mobile-menu" hidden>
             <div class="mobile-menu-avatar">
-                {{- $avatar := resources.Get "images/sidebar-avatar.gif" }}
-                {{- if not $avatar }}{{ $avatar = resources.Get "images/sidebar-avatar.jpg" }}{{ end }}
-                {{- if not $avatar }}{{ $avatar = resources.Get "images/sidebar-avatar.png" }}{{ end }}
-                {{- if $avatar }}
-                <img src="{{ $avatar.RelPermalink }}" alt="Muybridge's galloping horse — the birth of cinema" width="184" height="120" />
-                {{- end }}
+                {{- partial "sidebar_avatar.html" . }}
             </div>
             {{- range site.Menus.main }}
             <a href="{{ .URL | absLangURL }}" class="mobile-menu-link{{ if $.IsMenuCurrent "main" . }} active{{ end }}">{{ .Name }}</a>
