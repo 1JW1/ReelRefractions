@@ -50,6 +50,7 @@ Given the blog post text below, generate Hugo-compatible front matter in JSON fo
 - tags: Array of relevant tags (film title, genre, actor names, themes — 4 to 10 tags)
 - categories: Array with one category — either "Film Reviews" or "Film" (use "Film Reviews" for review posts, "Film" for general discussion)
 - keywords: Array of SEO keywords (3 to 6 broad terms)
+- cover_alt: Vivid, descriptive alt text for the cover image (describe a likely movie poster or promotional still — include character poses, colours, mood, and setting in one detailed sentence)
 
 Return ONLY valid JSON, no markdown fences, no explanation.
 
@@ -97,6 +98,7 @@ def format_front_matter(meta: dict, cover_image: str, today: str) -> str:
     tags = "\n".join(f'  - "{t}"' for t in meta.get("tags", []))
     categories = "\n".join(f'  - "{c}"' for c in meta.get("categories", ["Film Reviews"]))
     keywords = "\n".join(f'  - "{k}"' for k in meta.get("keywords", []))
+    cover_alt = meta.get("cover_alt", "")
 
     return f"""---
 title: "{meta['title']}"
@@ -114,7 +116,7 @@ keywords:
 showToc: false
 cover:
   image: "{cover_image}"
-  alt: ""
+  alt: "{cover_alt}"
   caption: ""
   relative: true
 summary: "{meta['description']}"
@@ -218,6 +220,9 @@ def main():
             new_slug = input(f"  Slug [{meta['slug']}]: ").strip()
             if new_slug:
                 meta["slug"] = new_slug
+            new_alt = input(f"  Cover alt [{meta.get('cover_alt', '')}]: ").strip()
+            if new_alt:
+                meta["cover_alt"] = new_alt
             front_matter = format_front_matter(meta, cover_name, today)
             print("\nUpdated front matter:")
             print(front_matter)
