@@ -17,7 +17,7 @@
       {{- if eq .Kind "page" }}
       <div class="vault-entry">
         <a href="{{ .RelPermalink }}" class="vault-entry-title">{{ .Title }}</a>
-        <span class="vault-date">{{ .Date.Format "January 2" }}</span>
+        <span class="vault-date">{{ .Date.Format "January" }}{{ if lt .Date.Day 10 }}&nbsp;{{ end }} {{ .Date.Day }}</span>
       </div>
       {{- end }}
       {{- end }}
