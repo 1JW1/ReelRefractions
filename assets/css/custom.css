@@ -987,6 +987,19 @@ input:focus-visible {
   color: var(--text-color);
 }
 
+.mobile-menu-avatar {
+  text-align: center;
+  padding: 0.5rem 0.75rem 0.75rem;
+}
+
+.mobile-menu-avatar img {
+  width: 140px;
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  filter: sepia(0.4) brightness(0.9);
+}
+
 /* ===== RESPONSIVE BREAKPOINTS ===== */
 
 /* Tablet: collapse right sidebar below content */
