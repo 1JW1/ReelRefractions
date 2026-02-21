@@ -19,4 +19,4 @@ There's no single genre or era I stick to. If it's compelling, it's fair game.
 
 I'm Erwin Bernard. Film has been a constant in my life for as long as I can remember — not as a profession, but as a way of seeing. This blog is where I put that into words.
 
-For quick takes on films I haven't written up here yet — and the latest updates that eventually make their way to the blog — you can find me on [Letterboxd](https://letterboxd.com/1jw1/).
+For quick takes on films I haven't written up here yet — and the latest updates that eventually make their way to the blog — you can find me on [Letterboxd](https://letterboxd.com/1eb1/).
