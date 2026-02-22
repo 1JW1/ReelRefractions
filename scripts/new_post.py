@@ -7,14 +7,16 @@ Automates new post creation by generating front matter using the Anthropic
 Claude API and formatting the post body as Markdown.
 
 Usage:
-    python scripts/new_post.py <body.txt> <cover_image> [secondary_image ...]
+    python scripts/new_post.py <body.txt|google-docs-url> <cover_image> [secondary_image ...]
 
 Requirements:
-    - pip install anthropic  (or: pip install -r scripts/requirements.txt)
+    - pip install -r scripts/requirements.txt
     - Set the ANTHROPIC_API_KEY environment variable
+    - For Google Docs URLs: place credentials.json in the project root
+      (see README for Google Cloud setup instructions)
 
 The script:
-    1. Reads the plain text body from the provided file
+    1. Reads the plain text body from the provided file or Google Docs URL
     2. Calls the Claude API to infer front matter (title, slug, description,
        tags, categories, keywords, date)
     3. Prints the inferred front matter for interactive review
@@ -30,6 +32,7 @@ import json
 import os
 import shutil
 import sys
+import urllib.parse
 from datetime import date
 from pathlib import Path
 
@@ -66,6 +69,95 @@ def get_api_key() -> str:
         print("Export it before running: export ANTHROPIC_API_KEY='sk-ant-...'")
         sys.exit(1)
     return key
+
+
+def is_google_docs_url(arg: str) -> bool:
+    """Return True if arg looks like a Google Docs URL."""
+    return arg.startswith("https://docs.google.com/document/")
+
+
+def extract_doc_id(url: str) -> str:
+    """Extract the document ID from a Google Docs URL.
+
+    Handles the standard form:
+        https://docs.google.com/document/d/<DOC_ID>/edit
+    """
+    parsed = urllib.parse.urlparse(url)
+    parts = parsed.path.split("/")
+    try:
+        d_index = parts.index("d")
+        return parts[d_index + 1]
+    except (ValueError, IndexError):
+        print(f"Error: Could not extract document ID from URL: {url}")
+        sys.exit(1)
+
+
+def _extract_text_from_doc(doc: dict) -> str:
+    """Extract plain text from a Google Docs API response, preserving paragraphs."""
+    paragraphs = []
+    for element in doc.get("body", {}).get("content", []):
+        paragraph = element.get("paragraph")
+        if not paragraph:
+            continue
+        parts = []
+        for run in paragraph.get("elements", []):
+            text_run = run.get("textRun")
+            if text_run:
+                parts.append(text_run.get("content", "").rstrip("\n"))
+        text = "".join(parts).strip()
+        if text:
+            paragraphs.append(text)
+    return "\n\n".join(paragraphs)
+
+
+def fetch_google_doc(url: str) -> str:
+    """Fetch a Google Doc's content as plain text via the Docs API.
+
+    Requires credentials.json in the working directory (project root).
+    Caches the OAuth token to token.json after first authorisation.
+    """
+    try:
+        from google.auth.transport.requests import Request
+        from google.oauth2.credentials import Credentials
+        from google_auth_oauthlib.flow import InstalledAppFlow
+        from googleapiclient.discovery import build
+    except ImportError:
+        print("Error: Google API packages not installed.")
+        print("Run: pip install -r scripts/requirements.txt")
+        sys.exit(1)
+
+    SCOPES = ["https://www.googleapis.com/auth/documents.readonly"]
+    creds_file = Path("credentials.json")
+    token_file = Path("token.json")
+
+    if not creds_file.exists():
+        print("Error: credentials.json not found in the project root.")
+        print("See README for Google Cloud setup instructions.")
+        sys.exit(1)
+
+    creds = None
+    if token_file.exists():
+        creds = Credentials.from_authorized_user_file(str(token_file), SCOPES)
+
+    if not creds or not creds.valid:
+        if creds and creds.expired and creds.refresh_token:
+            creds.refresh(Request())
+        else:
+            flow = InstalledAppFlow.from_client_secrets_file(str(creds_file), SCOPES)
+            creds = flow.run_local_server(port=0)
+        token_file.write_text(creds.to_json())
+
+    doc_id = extract_doc_id(url)
+    service = build("docs", "v1", credentials=creds)
+
+    try:
+        doc = service.documents().get(documentId=doc_id).execute()
+    except Exception as e:
+        print(f"Error fetching Google Doc: {e}")
+        print("If you see a 403, delete token.json and re-run to re-authorise.")
+        sys.exit(1)
+
+    return _extract_text_from_doc(doc)
 
 
 def generate_front_matter(body: str, api_key: str) -> dict:
@@ -157,18 +249,17 @@ def main():
     parser = argparse.ArgumentParser(
         description="Create a new Reel Refractions blog post with AI-generated front matter."
     )
-    parser.add_argument("body", help="Path to plain text file containing the post body")
+    parser.add_argument(
+        "body",
+        help="Path to plain text file OR a Google Docs URL (https://docs.google.com/document/d/...)",
+    )
     parser.add_argument("cover", help="Path to cover/hero image")
     parser.add_argument("images", nargs="*", help="Paths to secondary inline images")
     args = parser.parse_args()
 
     # Validate inputs
-    body_path = Path(args.body)
     cover_path = Path(args.cover)
 
-    if not body_path.is_file():
-        print(f"Error: Body file not found: {body_path}")
-        sys.exit(1)
     if not cover_path.is_file():
         print(f"Error: Cover image not found: {cover_path}")
         sys.exit(1)
@@ -181,7 +272,17 @@ def main():
             sys.exit(1)
         secondary_paths.append(p)
 
-    body = body_path.read_text(encoding="utf-8")
+    # Fetch body from Google Docs URL or read from local file
+    if is_google_docs_url(args.body):
+        print("Fetching document from Google Docs...")
+        body = fetch_google_doc(args.body)
+    else:
+        body_path = Path(args.body)
+        if not body_path.is_file():
+            print(f"Error: Body file not found: {body_path}")
+            sys.exit(1)
+        body = body_path.read_text(encoding="utf-8")
+
     api_key = get_api_key()
 
     # Generate front matter via Claude

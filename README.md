@@ -50,6 +50,32 @@ python scripts/new_post.py path/to/body.txt path/to/cover.jpg [optional-inline-i
 mv staging/2025-01-15-film-title content/posts/2025-01-15-film-title
 ```
 
+## Google Docs Integration
+
+You can pass a Google Docs URL directly instead of a local `.txt` file:
+
+```bash
+python scripts/new_post.py "https://docs.google.com/document/d/YOUR_DOC_ID/edit" cover.jpg
+```
+
+### One-time setup
+
+1. Go to the [Google Cloud Console](https://console.cloud.google.com/) and create a project (or select an existing one).
+2. Enable the **Google Docs API**: `APIs & Services → Library → Google Docs API → Enable`.
+3. Create OAuth 2.0 credentials: `APIs & Services → Credentials → Create Credentials → OAuth client ID`.
+   - Application type: **Desktop app**
+   - Give it any name (e.g. `ReelRefractions`)
+4. Download the credentials JSON and save it as **`credentials.json`** in the project root (it is gitignored).
+5. Install the updated Python dependencies:
+   ```bash
+   pip install -r scripts/requirements.txt
+   ```
+6. Run the script with a Google Docs URL. Your browser will open once for an OAuth consent screen. After authorising, a `token.json` file is saved to the project root (also gitignored) and subsequent runs skip the browser step.
+
+> **Scope used:** `documents.readonly` — the script only reads your document, never modifies it.
+>
+> If you see a 403 error, delete `token.json` and re-run to re-authorise.
+
 ## Project Structure
 
 ```
