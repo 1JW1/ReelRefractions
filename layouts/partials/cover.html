@@ -4,11 +4,22 @@
     {{- $loading := cond $.IsSingle "eager" "lazy" }}
     {{- $addLink := (and site.Params.cover.linkFullImages $.IsSingle) }}
     {{- $prod := (hugo.IsProduction | or (eq site.Params.env "production")) }}
+
+    {{- /* Use singleImage on article pages when available */ -}}
+    {{- $coverImage := .Params.cover.image }}
+    {{- if and $.IsSingle .Params.cover.singleImage }}
+        {{- $coverImage = .Params.cover.singleImage }}
+    {{- end }}
+
     {{- $alt := (.Params.cover.alt | default .Params.cover.caption | plainify) }}
+    {{- if and $.IsSingle .Params.cover.singleAlt }}
+        {{- $alt = .Params.cover.singleAlt }}
+    {{- end }}
+
     {{- $responsiveImages := (.Params.cover.responsiveImages | default site.Params.cover.responsiveImages) | default true }}
 
-    {{- $pageBundleCover := (.Resources.ByType "image").GetMatch (printf "*%s*" (.Params.cover.image)) }}
-    {{- $globalResourcesCover := (resources.ByType "image").GetMatch (printf "*%s*" (.Params.cover.image)) }}
+    {{- $pageBundleCover := (.Resources.ByType "image").GetMatch (printf "*%s*" $coverImage) }}
+    {{- $globalResourcesCover := (resources.ByType "image").GetMatch (printf "*%s*" $coverImage) }}
     {{- $cover := (or $pageBundleCover $globalResourcesCover)}}
 
     {{- $sizes := (slice "360" "480" "720" "1080" "1500") }}
@@ -17,7 +28,7 @@
         {{- $processableFormats = $processableFormats | append "webp" -}}
     {{- end -}}
 
-    {{- $imgdl := (.Params.cover.image) | absURL }}
+    {{- $imgdl := $coverImage | absURL }}
     {{- if $cover -}}
         {{- $imgdl = $cover.Permalink }}
     {{- end -}}
