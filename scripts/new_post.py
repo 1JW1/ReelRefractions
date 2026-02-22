@@ -185,12 +185,16 @@ def generate_front_matter(body: str, api_key: str) -> dict:
     return json.loads(response_text)
 
 
-def format_front_matter(meta: dict, cover_image: str, today: str) -> str:
+def format_front_matter(meta: dict, cover_image: str, today: str, single_image: str = "") -> str:
     """Format metadata dict into Hugo YAML front matter."""
     tags = "\n".join(f'  - "{t}"' for t in meta.get("tags", []))
     categories = "\n".join(f'  - "{c}"' for c in meta.get("categories", ["Film Reviews"]))
     keywords = "\n".join(f'  - "{k}"' for k in meta.get("keywords", []))
     cover_alt = meta.get("cover_alt", "")
+
+    single_image_lines = ""
+    if single_image:
+        single_image_lines = f'\n  singleImage: "{single_image}"\n  singleAlt: ""'
 
     return f"""---
 title: "{meta['title']}"
@@ -209,7 +213,7 @@ showToc: false
 cover:
   image: "{cover_image}"
   alt: "{cover_alt}"
-  caption: ""
+  caption: ""{single_image_lines}
   relative: true
 summary: "{meta['description']}"
 ---"""
@@ -295,9 +299,18 @@ def main():
 
     today = date.today().isoformat()
     cover_name = cover_path.name
+
+    # First secondary image becomes the article-page hero; rest go inline
+    article_cover_path = None
+    article_cover_name = ""
+    if secondary_paths:
+        article_cover_path = secondary_paths[0]
+        article_cover_name = article_cover_path.name
+        secondary_paths = secondary_paths[1:]
+
     secondary_names = [p.name for p in secondary_paths]
 
-    front_matter = format_front_matter(meta, cover_name, today)
+    front_matter = format_front_matter(meta, cover_name, today, single_image=article_cover_name)
 
     # Display for review
     print("\n" + "=" * 60)
@@ -324,7 +337,7 @@ def main():
             new_alt = input(f"  Cover alt [{meta.get('cover_alt', '')}]: ").strip()
             if new_alt:
                 meta["cover_alt"] = new_alt
-            front_matter = format_front_matter(meta, cover_name, today)
+            front_matter = format_front_matter(meta, cover_name, today, single_image=article_cover_name)
             print("\nUpdated front matter:")
             print(front_matter)
         elif choice == "q":
@@ -345,14 +358,18 @@ def main():
 
     # Copy images
     shutil.copy2(cover_path, staging_dir / cover_name)
+    if article_cover_path:
+        shutil.copy2(article_cover_path, staging_dir / article_cover_name)
     for p in secondary_paths:
         shutil.copy2(p, staging_dir / p.name)
 
     print(f"\nPost created at: {staging_dir}/")
     print(f"  - {post_file}")
-    print(f"  - {cover_name}")
+    print(f"  - {cover_name} (listing cover)")
+    if article_cover_name:
+        print(f"  - {article_cover_name} (article hero)")
     for name in secondary_names:
-        print(f"  - {name}")
+        print(f"  - {name} (inline)")
     print(f"\nTo publish, move the directory to content/posts/:")
     print(f"  mv {staging_dir} content/posts/{today}-{slug}")
 
