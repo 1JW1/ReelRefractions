@@ -16,6 +16,8 @@ yarn-error.log
 .env
 .env.local
 .env.*.local
+credentials.json
+token.json
 
 # Editor/IDE
 .vscode/
