@@ -13,7 +13,7 @@ cover:
   relative: true
 description: "Predator: Badlands wants to be feral and heartfelt yet lands tame and predictable."
 summary: "Predator: Badlands wants to be feral and heartfelt yet lands tame and predictable."
-letterboxd_url: ""
+letterboxd_url: "https://letterboxd.com/1eb1/film/predator-badlands/"
 ---
 
 Predator has been having something of a revival lately. I recently watched *Predator: Killer of Killers*, an impressive anthology series that pitted warriors from different eras against Predator hunters – stylish, creative, and surprisingly thoughtful. Add to that *Prey* (2022), a surprise Hulu hit that deserved a theatrical release, and it seemed like the franchise was finally regaining its bite. So when I heard about *Predator: Badlands*, I expected a story with the same care and imagination, backed by visceral fight sequences to kick off the weekend. Unfortunately, it doesn’t quite deliver on that promise.

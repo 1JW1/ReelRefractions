@@ -13,7 +13,7 @@ cover:
   relative: true
 description: "Tron: Ares is the sleek, optimistic sequel Tron Legacy wished it could be—less doomsday, more digital dream."
 summary: "Tron: Ares is the sleek, optimistic sequel Tron Legacy wished it could be—less doomsday, more digital dream."
-letterboxd_url: ""
+letterboxd_url: "https://letterboxd.com/1eb1/film/tron-ares/"
 ---
 
 Before seeing *Tron: Ares*, I tried to rewatch *Tron: Legacy* but stopped about 30 minutes in. The acting from the lead was stiff, and the plot felt tedious despite the impressive visuals. Needless to say, I was worried heading into the *Ares* screening.  
