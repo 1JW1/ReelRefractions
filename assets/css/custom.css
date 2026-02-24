@@ -68,6 +68,9 @@
   font-display: swap;
 }
 
+/* Ensure the HTML `hidden` attribute always wins over CSS display rules */
+[hidden] { display: none !important; }
+
 /* ===== COLOR & FONT VARIABLES ===== */
 /* Palette: deep midnight navy with warm beige text — black & white film aesthetic */
 :root {

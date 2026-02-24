@@ -8,16 +8,18 @@
 <div class="join-conversation">
   <h3>Join the Conversation</h3>
   <p>
-    Have thoughts on this one?
     {{- if .Params.letterboxd_url }}
-    Leave a review or log it on
+    Agree? Disagree? Think I've got it completely backwards? Good &mdash; I love a good argument.
+    Come log it, rate it, and tell me exactly where I went wrong on
     <a href="{{ .Params.letterboxd_url }}" target="_blank" rel="noopener noreferrer">Letterboxd</a>,
-    or reach me directly at
-    {{- else }}
-    Find me on
-    <a href="https://letterboxd.com/1eb1/" target="_blank" rel="noopener noreferrer">Letterboxd</a>,
-    or reach me directly at
-    {{- end }}
+    or drop me a line directly at
     <a href="mailto:{{ .Site.Params.contactEmail }}">{{ .Site.Params.contactEmail }}</a>.
+    {{- else }}
+    Got a take? Reckon I'm wrong? (It's been known to happen.)
+    Come find me on
+    <a href="https://letterboxd.com/1eb1/" target="_blank" rel="noopener noreferrer">Letterboxd</a>
+    or drop me a line at
+    <a href="mailto:{{ .Site.Params.contactEmail }}">{{ .Site.Params.contactEmail }}</a>.
+    {{- end }}
   </p>
 </div>
