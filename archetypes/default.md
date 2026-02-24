@@ -13,4 +13,5 @@ cover:
   alt: ""
   caption: ""
   relative: true
+letterboxd_url: ""
 ---

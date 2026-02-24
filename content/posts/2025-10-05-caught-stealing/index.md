@@ -13,6 +13,7 @@ cover:
   relative: true
 description: "Starts hot, ends cold. A stylish burst of brutality that loses its soul and stumbles into a one-note finish."
 summary: "Starts hot, ends cold. A stylish burst of brutality that loses its soul and stumbles into a one-note finish."
+letterboxd_url: ""
 ---
 
 Fucked life and fucked choices. For a while, I thought maybe that was the point — a reflection of how life grinds people down with its unrelenting blows — but alas, no.

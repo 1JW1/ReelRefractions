@@ -1,26 +1,23 @@
 {{/*
-  Remark42 Comments Partial
-  -------------------------
-  Self-hosted on Railway via Docker. Configure by setting params.remark42URL
-  in hugo.yaml to your Remark42 instance URL (e.g. https://remark42.yourdomain.com).
-  OAuth providers: Google (required). No Twitter/X.
+  Join the Conversation
+  ---------------------
+  Replaces the old Remark42 comments section.
+  Links to the film's Letterboxd page (from params.letterboxd_url front matter)
+  and the site contact email (from params.contactEmail in hugo.yaml).
 */}}
-{{ if .Site.Params.remark42URL }}
-<div class="remark42-section">
-    <h3 style="font-family: var(--font-heading); margin-bottom: 1rem;">Comments</h3>
-    <div id="remark42"></div>
-    <script>
-        var remark_config = {
-            host: '{{ .Site.Params.remark42URL }}',
-            site_id: 'reel-refractions',
-            components: ['embed'],
-            theme: 'dark',
-            locale: 'en'
-        };
-        !function(e,n){for(var o=0;o<e.length;o++){var r=n.createElement("script"),c=".js",d=n.head||n.body;
-        "noModule"in r?(r.type="module",c=".mjs"):r.async=!0;r.defer=!0;r.src=remark_config.host+"/web/"+e[o]+c;d.appendChild(r)}}
-        (remark_config.components||["embed"],document);
-    </script>
-    <noscript>Please enable JavaScript to view comments.</noscript>
+<div class="join-conversation">
+  <h3 style="font-family: var(--font-heading); margin-bottom: 0.75rem;">Join the Conversation</h3>
+  <p style="margin-bottom: 1rem;">
+    Have thoughts on this one?
+    {{- if .Params.letterboxd_url }}
+    Leave a review or log it on
+    <a href="{{ .Params.letterboxd_url }}" target="_blank" rel="noopener noreferrer">Letterboxd</a>,
+    or reach me directly at
+    {{- else }}
+    Find me on
+    <a href="https://letterboxd.com/1eb1/" target="_blank" rel="noopener noreferrer">Letterboxd</a>,
+    or reach me directly at
+    {{- end }}
+    <a href="mailto:{{ .Site.Params.contactEmail }}">{{ .Site.Params.contactEmail }}</a>.
+  </p>
 </div>
-{{ end }}
