@@ -46,7 +46,9 @@
   {{- end }}
 
   {{/* Join the Conversation — sits directly beneath the verdict */}}
+  {{- if not (.Param "hideComments") }}
   {{- partial "comments.html" . }}
+  {{- end }}
 
   <footer class="post-footer">
     {{- $tags := .Language.Params.Taxonomies.tag | default "tags" }}
