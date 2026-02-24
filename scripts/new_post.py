@@ -185,7 +185,7 @@ def generate_front_matter(body: str, api_key: str) -> dict:
     return json.loads(response_text)
 
 
-def format_front_matter(meta: dict, cover_image: str, today: str, single_image: str = "") -> str:
+def format_front_matter(meta: dict, cover_image: str, today: str, single_image: str = "", letterboxd_url: str = "") -> str:
     """Format metadata dict into Hugo YAML front matter."""
     tags = "\n".join(f'  - "{t}"' for t in meta.get("tags", []))
     categories = "\n".join(f'  - "{c}"' for c in meta.get("categories", ["Film Reviews"]))
@@ -215,6 +215,7 @@ cover:
   alt: "{cover_alt}"
   caption: ""{single_image_lines}
   relative: true
+letterboxd_url: "{letterboxd_url}"
 summary: "{meta['description']}"
 ---"""
 
@@ -259,6 +260,7 @@ def main():
     )
     parser.add_argument("cover", help="Path to cover/hero image")
     parser.add_argument("images", nargs="*", help="Paths to secondary inline images")
+    parser.add_argument("--letterboxd", default="", help="Letterboxd URL for this film")
     args = parser.parse_args()
 
     # Validate inputs
@@ -310,7 +312,7 @@ def main():
 
     secondary_names = [p.name for p in secondary_paths]
 
-    front_matter = format_front_matter(meta, cover_name, today, single_image=article_cover_name)
+    front_matter = format_front_matter(meta, cover_name, today, single_image=article_cover_name, letterboxd_url=args.letterboxd)
 
     # Display for review
     print("\n" + "=" * 60)
@@ -337,7 +339,7 @@ def main():
             new_alt = input(f"  Cover alt [{meta.get('cover_alt', '')}]: ").strip()
             if new_alt:
                 meta["cover_alt"] = new_alt
-            front_matter = format_front_matter(meta, cover_name, today, single_image=article_cover_name)
+            front_matter = format_front_matter(meta, cover_name, today, single_image=article_cover_name, letterboxd_url=args.letterboxd)
             print("\nUpdated front matter:")
             print(front_matter)
         elif choice == "q":

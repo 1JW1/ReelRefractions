@@ -43,14 +43,12 @@ params:
   UseHugoToc: true
   disableSpecial1stPost: false
   disableScrollToTop: false
-  comments: true
   hidemeta: false
   hideSummary: false
   showtoc: false
   tocopen: false
 
-  # Remark42 comments — set URL after self-hosting on Railway
-  remark42URL: ""
+  contactEmail: "erwin@reel-refractions.com"
 
   # Buttondown newsletter — set URL after account setup
   buttondownURL: ""
