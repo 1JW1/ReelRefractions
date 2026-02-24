@@ -922,6 +922,10 @@ a:hover {
   margin-bottom: 1rem;
 }
 
+.join-conversation a {
+  text-decoration: underline;
+}
+
 /* ===== COMMENTS (Remark42) ===== */
 .remark42-section {
   margin-top: 2rem;
