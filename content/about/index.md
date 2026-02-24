@@ -3,6 +3,7 @@ title: "About"
 layout: "single"
 url: /about/
 description: "About Reel Refractions — a film blog by Erwin Bernard."
+hideComments: true
 ---
 
 ## The Blog

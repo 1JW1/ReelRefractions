@@ -31,7 +31,13 @@
         </div>
         <div id="mobile-menu" class="mobile-menu" hidden>
             <div class="mobile-menu-avatar">
+                {{/* Always use the raw GIF so the animation runs on every page */}}
+                {{- $gif := resources.Get "images/sidebar-avatar.gif" }}
+                {{- if $gif }}
+                <img src="{{ $gif.RelPermalink }}" alt="Muybridge's galloping horse — the birth of cinema" width="184" height="120" />
+                {{- else }}
                 {{- partial "sidebar_avatar.html" . }}
+                {{- end }}
             </div>
             {{- range site.Menus.main }}
             <a href="{{ .URL | absLangURL }}" class="mobile-menu-link{{ if $.IsMenuCurrent "main" . }} active{{ end }}">{{ .Name }}</a>

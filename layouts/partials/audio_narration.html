@@ -1,0 +1,177 @@
+{{/*
+  Audio Narration Player
+  ----------------------
+  Uses the Web Speech API to read the post aloud.
+  Prefers neural / premium voices (Google, Microsoft) for a natural sound.
+  Falls back gracefully if the API is unavailable.
+*/}}
+{{- if .IsPage }}
+<div class="audio-player" id="audioPlayer" aria-label="Audio narration controls">
+  <button class="audio-play-btn" id="audioPlayBtn" aria-label="Play audio narration">
+    {{/* Play icon */}}
+    <svg class="audio-icon" id="audioIconPlay" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M8 5v14l11-7z"/>
+    </svg>
+    {{/* Pause icon (hidden initially) */}}
+    <svg class="audio-icon" id="audioIconPause" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" hidden>
+      <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+    </svg>
+    <span class="audio-play-label" id="audioPlayLabel">Listen to this post</span>
+  </button>
+
+  <div class="audio-controls-right" id="audioControlsRight" hidden>
+    <span class="audio-status" id="audioStatus" aria-live="polite">Reading&hellip;</span>
+    <button class="audio-stop-btn" id="audioStopBtn" aria-label="Stop reading">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M6 6h12v12H6z"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<script>
+(function () {
+  var player   = document.getElementById('audioPlayer');
+  var playBtn  = document.getElementById('audioPlayBtn');
+  var stopBtn  = document.getElementById('audioStopBtn');
+  var label    = document.getElementById('audioPlayLabel');
+  var iconPlay = document.getElementById('audioIconPlay');
+  var iconPause= document.getElementById('audioIconPause');
+  var controls = document.getElementById('audioControlsRight');
+  var statusEl = document.getElementById('audioStatus');
+
+  if (!('speechSynthesis' in window)) {
+    player.hidden = true;
+    return;
+  }
+
+  var synth = window.speechSynthesis;
+  var state = 'idle'; // idle | playing | paused
+
+  /* ------------------------------------------------------------------
+     Pick the best available English voice, strongly preferring the
+     neural / premium voices shipped with Chrome (Google *) and
+     Edge (Microsoft *), which sound genuinely natural.
+  ------------------------------------------------------------------ */
+  function bestVoice() {
+    var voices = synth.getVoices();
+    var en = voices.filter(function (v) { return /^en/i.test(v.lang); });
+
+    // Tier 1 — named neural voices known to sound realistic
+    var tier1 = en.filter(function (v) {
+      return /Google US English|Google UK English Female|Microsoft Aria|Microsoft Guy|Microsoft Zira|Microsoft David/i.test(v.name);
+    });
+    if (tier1.length) return tier1[0];
+
+    // Tier 2 — any Google or Microsoft voice (neural on modern browsers)
+    var tier2 = en.filter(function (v) {
+      return /^(Google|Microsoft)/i.test(v.name);
+    });
+    if (tier2.length) return tier2[0];
+
+    // Tier 3 — any voice flagged as "Enhanced" or "Premium" (Safari / iOS)
+    var tier3 = en.filter(function (v) {
+      return /Enhanced|Premium|Natural|Neural/i.test(v.name);
+    });
+    if (tier3.length) return tier3[0];
+
+    // Tier 4 — first available English voice
+    return en[0] || voices[0] || null;
+  }
+
+  /* ------------------------------------------------------------------
+     Extract readable text from the page:
+     title + post body (innerText strips tags cleanly).
+  ------------------------------------------------------------------ */
+  function getPostText() {
+    var parts = [];
+    var title   = document.querySelector('.post-title');
+    var content = document.querySelector('.post-content');
+    if (title)   parts.push(title.innerText.trim());
+    if (content) parts.push(content.innerText.trim());
+    return parts.join('. ');
+  }
+
+  /* ------------------------------------------------------------------
+     State management — keeps the UI in sync with playback state.
+  ------------------------------------------------------------------ */
+  function setState(newState) {
+    state = newState;
+    if (newState === 'idle') {
+      iconPlay.hidden  = false;
+      iconPause.hidden = true;
+      label.textContent = 'Listen to this post';
+      playBtn.setAttribute('aria-label', 'Play audio narration');
+      controls.hidden = true;
+    } else if (newState === 'playing') {
+      iconPlay.hidden  = true;
+      iconPause.hidden = false;
+      label.textContent = 'Pause';
+      playBtn.setAttribute('aria-label', 'Pause audio narration');
+      controls.hidden  = false;
+      statusEl.textContent = 'Reading\u2026';
+    } else if (newState === 'paused') {
+      iconPlay.hidden  = false;
+      iconPause.hidden = true;
+      label.textContent = 'Resume';
+      playBtn.setAttribute('aria-label', 'Resume audio narration');
+      controls.hidden  = false;
+      statusEl.textContent = 'Paused';
+    }
+  }
+
+  /* ------------------------------------------------------------------
+     Start a fresh utterance from the beginning.
+  ------------------------------------------------------------------ */
+  function startSpeaking() {
+    synth.cancel();
+
+    var text = getPostText();
+    if (!text) return;
+
+    var utt = new SpeechSynthesisUtterance(text);
+    utt.rate   = 0.92;  // Slightly slower than default — more natural pacing
+    utt.pitch  = 1.0;
+    utt.volume = 1.0;
+
+    var voice = bestVoice();
+    if (voice) utt.voice = voice;
+
+    utt.onstart  = function () { setState('playing'); };
+    utt.onend    = function () { setState('idle'); };
+    utt.onerror  = function () { setState('idle'); };
+
+    setState('playing');
+    synth.speak(utt);
+  }
+
+  /* ------------------------------------------------------------------
+     Button interactions.
+  ------------------------------------------------------------------ */
+  playBtn.addEventListener('click', function () {
+    if (state === 'idle') {
+      startSpeaking();
+    } else if (state === 'playing') {
+      synth.pause();
+      setState('paused');
+    } else if (state === 'paused') {
+      synth.resume();
+      setState('playing');
+    }
+  });
+
+  stopBtn.addEventListener('click', function () {
+    synth.cancel();
+    setState('idle');
+  });
+
+  // Stop narration if the user navigates away
+  window.addEventListener('pagehide', function () { synth.cancel(); });
+
+  // Trigger voice list loading in browsers that load them lazily
+  if (typeof synth.onvoiceschanged !== 'undefined') {
+    synth.onvoiceschanged = function () {};
+  }
+})();
+</script>
+{{- end }}

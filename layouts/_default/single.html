@@ -34,12 +34,20 @@
   {{- partial "toc.html" . }}
   {{- end }}
 
+  {{/* Audio narration player */}}
+  {{- partial "audio_narration.html" . }}
+
   {{- if .Content }}
   <div class="post-content">
     {{- if not (.Param "disableAnchoredHeadings") }}
     {{- partial "anchored_headings.html" .Content -}}
     {{- else }}{{ .Content }}{{ end }}
   </div>
+  {{- end }}
+
+  {{/* Join the Conversation — sits directly beneath the verdict */}}
+  {{- if not (.Param "hideComments") }}
+  {{- partial "comments.html" . }}
   {{- end }}
 
   <footer class="post-footer">
@@ -59,9 +67,6 @@
 
   {{/* Newsletter signup */}}
   {{- partial "newsletter.html" . }}
-
-  {{/* Join the Conversation */}}
-  {{- partial "comments.html" . }}
 </article>
 
 {{- end }}{{/* end main */}}

@@ -6,18 +6,20 @@
   and the site contact email (from params.contactEmail in hugo.yaml).
 */}}
 <div class="join-conversation">
-  <h3 style="font-family: var(--font-heading); margin-bottom: 0.75rem;">Join the Conversation</h3>
-  <p style="margin-bottom: 1rem;">
-    Have thoughts on this one?
+  <h3>Join the Conversation</h3>
+  <p>
     {{- if .Params.letterboxd_url }}
-    Leave a review or log it on
+    Agree? Disagree? Think I've got it completely backwards? Good &mdash; I love a good argument.
+    Tell me exactly where I went wrong (or right!) on
     <a href="{{ .Params.letterboxd_url }}" target="_blank" rel="noopener noreferrer">Letterboxd</a>,
-    or reach me directly at
+    or drop me a line directly via
+    <a href="mailto:{{ .Site.Params.contactEmail }}">email</a>.
     {{- else }}
-    Find me on
-    <a href="https://letterboxd.com/1eb1/" target="_blank" rel="noopener noreferrer">Letterboxd</a>,
-    or reach me directly at
+    Got a take? Reckon I'm wrong? (It's been known to happen.)
+    Come find me on
+    <a href="https://letterboxd.com/1eb1/" target="_blank" rel="noopener noreferrer">Letterboxd</a>
+    or drop me a line via
+    <a href="mailto:{{ .Site.Params.contactEmail }}">email</a>.
     {{- end }}
-    <a href="mailto:{{ .Site.Params.contactEmail }}">{{ .Site.Params.contactEmail }}</a>.
   </p>
 </div>
