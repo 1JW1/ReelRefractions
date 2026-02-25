@@ -1,42 +1,60 @@
 {{/*
-  Just Watched — Sidebar Widget
-  -----------------------------
-  Reads from data/status.yaml and renders a compact list of
-  recently watched films with ratings. Films without a full
-  review show a "review pending" indicator.
+  Just Watched — Letterboxd RSS Widget
+  -------------------------------------
+  Fetches the public Letterboxd diary RSS feed for the configured username at
+  build time and renders the 5 most recent entries, each linked to the
+  corresponding Letterboxd diary page.
 
-  data/status.yaml format:
-  just_watched:
-    - title: "Film Title"
-      year: 2024
-      rating: "4 / 5"
-      letterboxd_url: "https://letterboxd.com/..."
-      reviewed: true   # optional, omit if not yet reviewed
-      review_url: "/posts/slug/"  # optional
+  Configure via hugo.yaml:
+    params:
+      letterboxdUsername: "your-letterboxd-username"
+
+  The feed is cached by Hugo between builds. It refreshes on every deploy.
+  If the fetch fails the widget renders nothing — no broken UI.
+
+  Title parsing: Letterboxd RSS titles use the format
+    "Film Name, Year - ★★★★½"
+  Split on " - " to separate film+year from the star rating.
+  Split film+year on ", " treating the final segment as the year.
 */}}
-{{- $status := site.Data.status }}
-{{- if and $status $status.just_watched }}
+{{- $username := site.Params.letterboxdUsername -}}
+{{- if $username -}}
+  {{- $url := printf "https://letterboxd.com/%s/rss/" $username -}}
+  {{- with try (resources.GetRemote $url) -}}
+    {{- with .Err -}}
+      {{/* RSS fetch failed — render nothing, degrade silently */}}
+    {{- else -}}
+      {{- $feed := .Value | transform.Unmarshal -}}
+      {{- $items := $feed.channel.item -}}
+      {{- if $items -}}
 <section class="sidebar-section just-watched" aria-label="Just Watched">
   <h3 class="sidebar-heading">Just Watched</h3>
   <ul class="just-watched-list">
-    {{- range first 5 $status.just_watched }}
+        {{- range first 5 $items -}}
+          {{/* Parse "Film Name, Year - ★★★★½" from the RSS <title> */}}
+          {{- $raw := .title -}}
+          {{- $dashParts := split $raw " - " -}}
+          {{- $filmAndYear := index $dashParts 0 -}}
+          {{- $stars := "" -}}
+          {{- if gt (len $dashParts) 1 -}}
+            {{- $stars = index $dashParts 1 -}}
+          {{- end -}}
+          {{- $commaParts := split $filmAndYear ", " -}}
+          {{- $filmTitle := delimit (first (sub (len $commaParts) 1) $commaParts) ", " -}}
+          {{- $filmYear := index $commaParts (sub (len $commaParts) 1) -}}
     <li class="just-watched-item">
-      {{- if .reviewed }}
-      <a href="{{ .review_url }}" class="just-watched-title">{{ .title }}</a>
-      {{- else }}
-      <span class="just-watched-title">{{ .title }}</span>
-      {{- end }}
+      <a href="{{ .link }}" class="just-watched-title" target="_blank" rel="noopener noreferrer">{{ $filmTitle }}</a>
       <div class="just-watched-meta">
-        <span class="just-watched-year">{{ .year }}</span>
-        {{- if .rating }}
-        <span class="just-watched-rating">{{ .rating }}</span>
-        {{- end }}
-        {{- if not .reviewed }}
-        <span class="just-watched-pending" title="Review coming soon">&middot; pending</span>
+        <span class="just-watched-year">{{ $filmYear }}</span>
+        {{- if $stars }}
+        <span class="just-watched-rating">{{ $stars }}</span>
         {{- end }}
       </div>
     </li>
-    {{- end }}
+        {{- end -}}
   </ul>
 </section>
-{{- end }}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}

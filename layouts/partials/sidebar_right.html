@@ -2,6 +2,9 @@
     {{/* Just Watched widget */}}
     {{- partial "just_watched.html" . -}}
 
+    {{/* Newsletter */}}
+    {{- partial "newsletter.html" . -}}
+
     {{/* Recent Posts — sorted by front matter date */}}
     <section class="sidebar-section">
         <h3 class="sidebar-heading">Recent Posts</h3>
@@ -27,7 +30,4 @@
         </div>
     </section>
     {{- end }}
-
-    {{/* Newsletter */}}
-    {{- partial "newsletter.html" . -}}
 </div>

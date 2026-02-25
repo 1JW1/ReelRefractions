@@ -50,6 +50,9 @@ params:
 
   contactEmail: "reel-refractions@gmail.com"
 
+  # Letterboxd RSS — set to your Letterboxd username to power the Just Watched sidebar widget
+  letterboxdUsername: "1eb1"
+
   # Buttondown newsletter
   buttondownURL: "https://buttondown.com/reel-refractions"
 
