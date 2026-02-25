@@ -43,9 +43,11 @@
   {{- $isHidden := ($page.Param "cover.hiddenInList") | default ($page.Param "cover.hidden") | default false }}
   {{- if not $isHidden }}
   {{- with $page.Params.cover.image }}
+  {{- $img := $page.Resources.Get . }}
+  {{- $alt := $page.Params.cover.alt | default $page.Title }}
+  {{- $isExternal := or (hasPrefix . "http://") (hasPrefix . "https://") }}
+  {{- if or $img $isExternal }}
   <div class="post-card-cover">
-    {{- $img := $page.Resources.GetMatch . }}
-    {{- $alt := $page.Params.cover.alt | default $page.Title }}
     {{- if $img }}
       {{- $sizes := slice "360" "480" "720" "1080" }}
       {{- $processable := slice "jpg" "jpeg" "png" "tif" "bmp" "gif" "webp" }}
@@ -65,13 +67,14 @@
       <img loading="lazy" decoding="async" src="{{ $img.RelPermalink }}" alt="{{ $alt }}" />
       {{- end }}
     {{- else }}
-    <img loading="lazy" decoding="async" src="{{ . | absURL }}" alt="{{ $alt }}" />
+    <img loading="lazy" decoding="async" src="{{ . }}" alt="{{ $alt }}" />
     {{- end }}
     {{/* Rating badge — top-right corner of cover image */}}
     {{- if $page.Params.rating }}
     <span class="rating-badge" aria-label="Rating: {{ $page.Params.rating }}">{{ $page.Params.rating }}</span>
     {{- end }}
   </div>
+  {{- end }}
   {{- end }}
   {{- end }}
   <div class="post-card-body">
