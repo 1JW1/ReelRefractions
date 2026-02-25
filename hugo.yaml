@@ -24,8 +24,8 @@ outputs:
 params:
   env: production
   title: Reel Refractions
-  description: "The home of my spontaneous reflections on cinema — emotional, instinctive, and sometimes messy, just like film itself."
-  keywords: [Blog, Film, Cinema, Reviews]
+  description: "Feeling-first film criticism by Erwin Bernard — new releases, classic retrospectives, and revisits worth your time."
+  keywords: [Film Reviews, Cinema, Movie Criticism, Film Blog, New Releases, Classic Films, Erwin Bernard]
   author: Erwin Bernard
   images: []
   DateFormat: "January 2, 2006"
@@ -50,8 +50,8 @@ params:
 
   contactEmail: "reel-refractions@gmail.com"
 
-  # Buttondown newsletter — set URL after account setup
-  buttondownURL: ""
+  # Buttondown newsletter
+  buttondownURL: "https://buttondown.com/reel-refractions"
 
   assets:
     theme_color: "#001B2E"
@@ -106,6 +106,10 @@ menu:
       name: Tags
       url: /tags/
       weight: 25
+    - identifier: search
+      name: Search
+      url: /search/
+      weight: 30
 
 pygmentsUseClasses: true
 markup:

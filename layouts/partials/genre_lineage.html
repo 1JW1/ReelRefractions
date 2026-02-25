@@ -1,0 +1,29 @@
+{{/*
+  Genre Lineage — "In Context"
+  ----------------------------
+  Renders a box showing 2-3 films that preceded or influenced
+  the film being reviewed. Set via front matter:
+
+  genre_lineage:
+    - title: "Film Title (Year)"
+      note: "one-line comparison"
+    - title: "Another Film (Year)"
+      note: "what connects them"
+*/}}
+{{- if .Params.genre_lineage }}
+<div class="genre-lineage" aria-label="Films in context">
+  <h4 class="genre-lineage-heading">In Context</h4>
+  <ul class="genre-lineage-list">
+    {{- range .Params.genre_lineage }}
+    <li class="genre-lineage-item">
+      <span class="genre-lineage-arrow">&rarr;</span>
+      <span class="genre-lineage-title">{{ .title }}</span>
+      {{- if .note }}
+      <span class="genre-lineage-sep">&mdash;</span>
+      <span class="genre-lineage-note">{{ .note }}</span>
+      {{- end }}
+    </li>
+    {{- end }}
+  </ul>
+</div>
+{{- end }}

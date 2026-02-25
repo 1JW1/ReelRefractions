@@ -1,0 +1,42 @@
+{{/*
+  Just Watched — Sidebar Widget
+  -----------------------------
+  Reads from data/status.yaml and renders a compact list of
+  recently watched films with ratings. Films without a full
+  review show a "review pending" indicator.
+
+  data/status.yaml format:
+  just_watched:
+    - title: "Film Title"
+      year: 2024
+      rating: "4 / 5"
+      letterboxd_url: "https://letterboxd.com/..."
+      reviewed: true   # optional, omit if not yet reviewed
+      review_url: "/posts/slug/"  # optional
+*/}}
+{{- $status := site.Data.status }}
+{{- if and $status $status.just_watched }}
+<section class="sidebar-section just-watched" aria-label="Just Watched">
+  <h3 class="sidebar-heading">Just Watched</h3>
+  <ul class="just-watched-list">
+    {{- range first 5 $status.just_watched }}
+    <li class="just-watched-item">
+      {{- if .reviewed }}
+      <a href="{{ .review_url }}" class="just-watched-title">{{ .title }}</a>
+      {{- else }}
+      <span class="just-watched-title">{{ .title }}</span>
+      {{- end }}
+      <div class="just-watched-meta">
+        <span class="just-watched-year">{{ .year }}</span>
+        {{- if .rating }}
+        <span class="just-watched-rating">{{ .rating }}</span>
+        {{- end }}
+        {{- if not .reviewed }}
+        <span class="just-watched-pending" title="Review coming soon">&middot; pending</span>
+        {{- end }}
+      </div>
+    </li>
+    {{- end }}
+  </ul>
+</section>
+{{- end }}

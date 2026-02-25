@@ -67,10 +67,37 @@
     {{- else }}
     <img loading="lazy" decoding="async" src="{{ . | absURL }}" alt="{{ $alt }}" />
     {{- end }}
+    {{/* Rating badge — top-right corner of cover image */}}
+    {{- if $page.Params.rating }}
+    <span class="rating-badge" aria-label="Rating: {{ $page.Params.rating }}">{{ $page.Params.rating }}</span>
+    {{- end }}
   </div>
   {{- end }}
   {{- end }}
   <div class="post-card-body">
+    {{/* Chips row — review type and spoiler status */}}
+    {{- $hasChips := or $page.Params.review_type (isset $page.Params "spoiler") }}
+    {{- if $hasChips }}
+    <div class="post-card-chips">
+      {{- if $page.Params.review_type }}
+      {{- $rt := $page.Params.review_type }}
+      <span class="review-type-chip review-type-{{ $rt }}">
+        {{- if eq $rt "quick-take" }}Quick Take
+        {{- else if eq $rt "revisit" }}Revisit
+        {{- else if eq $rt "retrospective" }}Retrospective
+        {{- else }}Review
+        {{- end -}}
+      </span>
+      {{- end }}
+      {{- if isset $page.Params "spoiler" }}
+        {{- if $page.Params.spoiler }}
+        <span class="spoiler-chip" title="This review contains spoilers">Spoilers</span>
+        {{- else }}
+        <span class="no-spoiler-chip" title="This review is spoiler-free">Spoiler-free</span>
+        {{- end }}
+      {{- end }}
+    </div>
+    {{- end }}
     <h2 class="post-card-title">
       <a href="{{ .Permalink }}">{{ .Title }}</a>
     </h2>
@@ -85,6 +112,10 @@
     <p class="post-card-description">{{ .Description }}</p>
     {{- else if .Summary }}
     <p class="post-card-description">{{ .Summary | plainify | truncate 150 }}</p>
+    {{- end }}
+    {{/* The Refraction pull-quote on card */}}
+    {{- if $page.Params.refraction_quote }}
+    <p class="post-card-refraction">&ldquo;{{ $page.Params.refraction_quote }}&rdquo;</p>
     {{- end }}
   </div>
   <a class="post-card-link" aria-label="Read {{ .Title | plainify }}" href="{{ .Permalink }}"></a>

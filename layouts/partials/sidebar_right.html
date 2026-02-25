@@ -1,4 +1,7 @@
 <div class="sidebar-right-content">
+    {{/* Just Watched widget */}}
+    {{- partial "just_watched.html" . -}}
+
     {{/* Recent Posts — sorted by front matter date */}}
     <section class="sidebar-section">
         <h3 class="sidebar-heading">Recent Posts</h3>
@@ -12,15 +15,18 @@
         {{- end }}
     </section>
 
-    {{/* Trending Tags */}}
+    {{/* Tags — shown without misleading counts */}}
+    {{- $allTags := site.Taxonomies.tags }}
+    {{- if $allTags }}
     <section class="sidebar-section">
-        <h3 class="sidebar-heading">Trending Tags</h3>
+        <h3 class="sidebar-heading">Tags</h3>
         <div class="sidebar-tags">
-            {{- range site.Taxonomies.tags.ByCount | first 10 }}
-            <a href="{{ .Page.RelPermalink }}" class="tag-chip">{{ .Page.Title }} <sup>{{ .Count }}</sup></a>
+            {{- range $allTags.ByCount | first 12 }}
+            <a href="{{ .Page.RelPermalink }}" class="tag-chip">{{ .Page.Title }}</a>
             {{- end }}
         </div>
     </section>
+    {{- end }}
 
     {{/* Newsletter */}}
     {{- partial "newsletter.html" . -}}

@@ -1,0 +1,37 @@
+# Just Watched — Sidebar Widget Data
+# Update this file to keep the sidebar fresh between posts.
+# reviewed: true + review_url are optional — omit for unreviewed films.
+
+just_watched:
+  - title: "Predator: Badlands"
+    year: 2025
+    rating: "2.5 / 5"
+    letterboxd_url: "https://letterboxd.com/1eb1/film/predator-badlands/"
+    reviewed: true
+    review_url: "/posts/2025-11-09-predator-badlands/"
+
+  - title: "Tron: Ares"
+    year: 2025
+    rating: "3.5 / 5"
+    letterboxd_url: "https://letterboxd.com/1eb1/film/tron-ares/"
+    reviewed: true
+    review_url: "/posts/2025-10-13-tron-ares/"
+
+  - title: "Caught Stealing"
+    year: 2024
+    rating: "2 / 5"
+    letterboxd_url: "https://letterboxd.com/1eb1/film/caught-stealing/"
+    reviewed: true
+    review_url: "/posts/2025-10-05-caught-stealing/"
+
+  - title: "Conclave"
+    year: 2024
+    rating: "4 / 5"
+    letterboxd_url: "https://letterboxd.com/1eb1/film/conclave-2024/"
+    reviewed: false
+
+  - title: "The Brutalist"
+    year: 2024
+    rating: "4.5 / 5"
+    letterboxd_url: "https://letterboxd.com/1eb1/film/the-brutalist/"
+    reviewed: false
