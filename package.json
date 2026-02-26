@@ -6,7 +6,8 @@
     "dev": "hugo server -D",
     "build": "git submodule update --init --recursive && hugo --gc --minify",
     "start": "hugo --gc --minify",
-    "preview": "git submodule update --init --recursive && hugo --gc --minify --baseURL http://localhost:3000 && serve public -l 3000"
+    "preview": "git submodule update --init --recursive && hugo --gc --minify --baseURL http://localhost:3000 && serve public -l 3000",
+    "test": "pytest scripts/tests/ -v"
   },
   "devDependencies": {
     "serve": "^14.1.2"
