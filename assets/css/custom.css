@@ -560,8 +560,14 @@ a:hover {
 }
 
 /* ===== HOME INFO ===== */
+/* Theme sets min-height: 320px on .first-entry — remove it so the block
+   only takes up as much space as the content actually needs */
+.first-entry {
+  min-height: unset;
+  margin: 0 0 1.5rem;
+}
+
 .home-info {
-  margin-bottom: 2rem;
   padding-bottom: 1.5rem;
   border-bottom: 1px solid var(--border-color);
 }
