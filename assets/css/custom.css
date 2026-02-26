@@ -1462,6 +1462,7 @@ input:focus-visible {
 .related-post-thumb {
   width: 100%;
   aspect-ratio: 16 / 9;
+  max-height: 220px;
   object-fit: cover;
   display: block;
 }

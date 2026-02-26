@@ -17,7 +17,7 @@
         {{- $coverImg := $relPage.Resources.GetMatch . }}
         {{- if $coverImg }}
           <img class="related-post-thumb"
-               src="{{ ($coverImg.Resize "720x webp").RelPermalink }}"
+               src="{{ ($coverImg.Fill "720x405 Center webp").RelPermalink }}"
                alt="{{ $relPage.Params.cover.alt | default $relPage.Title }}"
                width="720" height="405"
                loading="lazy" decoding="async" />
