@@ -97,10 +97,6 @@ menu:
       name: About
       url: /about/
       weight: 10
-    - identifier: vault
-      name: The Vault
-      url: /vault/
-      weight: 15
     - identifier: categories
       name: Categories
       url: /categories/
