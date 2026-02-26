@@ -54,7 +54,7 @@ params:
   letterboxdUsername: "1eb1"
 
   # Buttondown newsletter
-  buttondownURL: "https://buttondown.com/reel-refractions"
+  # buttondownURL: "https://buttondown.com/reel-refractions"
 
   assets:
     theme_color: "#001B2E"
