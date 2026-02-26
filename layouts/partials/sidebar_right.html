@@ -3,7 +3,9 @@
     {{- partial "just_watched.html" . -}}
 
     {{/* Newsletter */}}
+    {{- if .Site.Params.buttondownURL -}}
     {{- partial "newsletter.html" . -}}
+    {{- end -}}
 
     {{/* Recent Posts — sorted by front matter date */}}
     <section class="sidebar-section">

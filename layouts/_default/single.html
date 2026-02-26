@@ -76,7 +76,9 @@
   {{- partial "related_posts.html" . }}
 
   {{/* Newsletter signup */}}
+  {{- if .Site.Params.buttondownURL }}
   {{- partial "newsletter.html" . }}
+  {{- end }}
 </article>
 
 {{- end }}{{/* end main */}}
