@@ -104,6 +104,10 @@
     <h2 class="post-card-title">
       <a href="{{ .Permalink }}">{{ .Title }}</a>
     </h2>
+    {{/* The Refraction pull-quote — hook sentence, shown first for scroll-culture readers */}}
+    {{- if $page.Params.refraction_quote }}
+    <p class="post-card-refraction">&ldquo;{{ $page.Params.refraction_quote }}&rdquo;</p>
+    {{- end }}
     <div class="post-card-meta">
       <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format (site.Params.DateFormat | default "January 2, 2006") }}</time>
       {{- if site.Params.ShowReadingTime }}
@@ -111,14 +115,11 @@
       <span>{{ .ReadingTime }} min read</span>
       {{- end }}
     </div>
+    {{/* Description — secondary context for deliberate readers */}}
     {{- if .Description }}
     <p class="post-card-description">{{ .Description }}</p>
     {{- else if .Summary }}
     <p class="post-card-description">{{ .Summary | plainify | truncate 150 }}</p>
-    {{- end }}
-    {{/* The Refraction pull-quote on card */}}
-    {{- if $page.Params.refraction_quote }}
-    <p class="post-card-refraction">&ldquo;{{ $page.Params.refraction_quote }}&rdquo;</p>
     {{- end }}
   </div>
   <a class="post-card-link" aria-label="Read {{ .Title | plainify }}" href="{{ .Permalink }}"></a>
