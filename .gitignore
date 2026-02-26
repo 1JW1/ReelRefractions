@@ -52,6 +52,7 @@ logs/
 venv/
 .envrc
 .pytest_cache/
+__pycache__/
 
 # Staging directory for draft posts
 staging/
