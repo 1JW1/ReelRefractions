@@ -33,6 +33,7 @@ import os
 import shutil
 import sys
 import urllib.parse
+import urllib.request
 from datetime import date
 from pathlib import Path
 
@@ -55,8 +56,13 @@ Given the blog post text below, generate Hugo-compatible front matter in JSON fo
 - cover_alt: Vivid, descriptive alt text for the cover image (describe a likely movie poster or promotional still — include character poses, colours, mood, and setting in one detailed sentence)
 - review_type: One of "new-release", "revisit", "retrospective", or "quick-take" — infer from writing style and context
 - refraction_quote: The single best sentence from the post that captures the feeling, not the plot — must work as a standalone pull quote or social share
-- genre_lineage: Array of 2–3 objects, each with "title" (film name + year, e.g. "Heat (1995)") and "note" (one clause on what connects it to the reviewed film)
-- rating: The reviewer's score as a string in "X / 5" format (e.g. "3.5 / 5") — find the verdict or score in the text
+- genre_lineage: Array of exactly 2–3 objects, each with "title" (film name + year, e.g. "Heat (1995)") and "note" (one clause: what connects it AND how it differs).
+  STRICT EDITORIAL RULES — all must be satisfied:
+  1. AVOID THE OBVIOUS: Never pick the franchise predecessor or the single most famous film in the genre as a lineage entry. If reviewing a Tron film, TRON (1982) is off-limits. If reviewing a sci-fi film, do not default to Blade Runner, The Matrix, or Alien.
+  2. MIX ERAS: Never choose two films from the same year. Aim for at least one decade of separation between any two entries.
+  3. ILLUMINATE, DON'T JUST MATCH GENRE: Choose films that reveal something about the reviewed film's theme, tone, craft, or emotional register — not just films with a similar plot or genre tag. A film from a completely different genre can qualify if the connection is genuinely illuminating.
+  4. EACH NOTE must contain two clauses: what connects them AND how they differ or what makes the comparison surprising.
+{tmdb_context}- rating: The reviewer's score as a string in "X / 5" format (e.g. "3.5 / 5") — find the verdict or score in the text
 - spoiler: Boolean — true if the post references specific plot events, endings, deaths, or twists; false if analysis is thematic or stylistic only
 
 Return ONLY valid JSON, no markdown fences, no explanation.
@@ -164,7 +170,69 @@ def fetch_google_doc(url: str) -> str:
     return _extract_text_from_doc(doc)
 
 
-def generate_front_matter(body: str, api_key: str) -> dict:
+def get_tmdb_api_key() -> str | None:
+    """Return TMDB API key from environment, or None if not set."""
+    return os.environ.get("TMDB_API_KEY")
+
+
+def search_tmdb(title: str, year: str, api_key: str) -> int | None:
+    """Search TMDB for a film by title (+ optional year). Returns movie_id or None."""
+    params = urllib.parse.urlencode({
+        "api_key": api_key,
+        "query": title,
+        "language": "en-US",
+        "page": "1",
+        **({"year": year} if year else {}),
+    })
+    url = f"https://api.themoviedb.org/3/search/movie?{params}"
+    try:
+        with urllib.request.urlopen(url, timeout=10) as resp:
+            data = json.loads(resp.read())
+        results = data.get("results", [])
+        if results:
+            return results[0]["id"]
+    except Exception as e:
+        print(f"  TMDB search failed: {e}")
+    return None
+
+
+def fetch_similar_movies(movie_id: int, api_key: str) -> list[dict]:
+    """Return up to 6 similar movies from TMDB for the given movie_id."""
+    params = urllib.parse.urlencode({"api_key": api_key, "language": "en-US", "page": "1"})
+    url = f"https://api.themoviedb.org/3/movie/{movie_id}/similar?{params}"
+    try:
+        with urllib.request.urlopen(url, timeout=10) as resp:
+            data = json.loads(resp.read())
+        results = data.get("results", [])[:6]
+        return [
+            {
+                "title": r["title"],
+                "year": r.get("release_date", "")[:4],
+            }
+            for r in results
+            if r.get("title") and r.get("release_date")
+        ]
+    except Exception as e:
+        print(f"  TMDB similar-movies fetch failed: {e}")
+    return []
+
+
+def build_tmdb_context(similar_movies: list[dict]) -> str:
+    """Format the TMDB similar-movies list into a prompt context block."""
+    if not similar_movies:
+        return ""
+    films = "\n  ".join(
+        f"- {m['title']} ({m['year']})" for m in similar_movies
+    )
+    return (
+        "  The following real films are catalogued as 'similar' by The Movie Database (TMDB). "
+        "You MAY use 1–2 of these if they genuinely illuminate the reviewed film via themes, "
+        "tone, or craft — not just shared genre. Replace the remainder with more revealing "
+        "choices from any era:\n  " + films + "\n"
+    )
+
+
+def generate_front_matter(body: str, api_key: str, tmdb_context: str = "") -> dict:
     """Call Claude API to generate front matter from post body."""
     client = anthropic.Anthropic(api_key=api_key)
 
@@ -174,7 +242,10 @@ def generate_front_matter(body: str, api_key: str) -> dict:
         messages=[
             {
                 "role": "user",
-                "content": FRONT_MATTER_PROMPT.format(body=body[:8000]),
+                "content": FRONT_MATTER_PROMPT.format(
+                    body=body[:8000],
+                    tmdb_context=tmdb_context,
+                ),
             }
         ],
     )
@@ -289,6 +360,15 @@ def main():
     parser.add_argument("cover", help="Path to cover/hero image")
     parser.add_argument("images", nargs="*", help="Paths to secondary inline images")
     parser.add_argument("--letterboxd", default="", help="Letterboxd URL for this film")
+    parser.add_argument(
+        "--tmdb-id",
+        type=int,
+        default=None,
+        metavar="ID",
+        help="TMDB movie ID — skips the title search step. "
+             "Find it at themoviedb.org (e.g. 533533 for Tron: Ares). "
+             "Requires TMDB_API_KEY env var.",
+    )
     args = parser.parse_args()
 
     # Validate inputs
@@ -319,10 +399,33 @@ def main():
 
     api_key = get_api_key()
 
+    # Optionally enrich genre_lineage with real TMDB similar-movies data
+    tmdb_context = ""
+    tmdb_api_key = get_tmdb_api_key()
+    if tmdb_api_key:
+        movie_id = args.tmdb_id
+        if movie_id is None:
+            # Extract a rough title guess from the first line of the body for search
+            first_line = body.strip().split("\n")[0][:80]
+            print(f"\nSearching TMDB for: {first_line!r}...")
+            movie_id = search_tmdb(first_line, "", tmdb_api_key)
+        if movie_id:
+            print(f"  Fetching similar movies for TMDB ID {movie_id}...")
+            similar = fetch_similar_movies(movie_id, tmdb_api_key)
+            if similar:
+                tmdb_context = build_tmdb_context(similar)
+                print(f"  Found {len(similar)} similar films from TMDB.")
+            else:
+                print("  No similar movies found on TMDB.")
+        else:
+            print("  Could not find film on TMDB — proceeding without TMDB context.")
+    else:
+        print("\n(TMDB_API_KEY not set — genre_lineage will be generated from post text alone.)")
+
     # Generate front matter via Claude
     print("\nGenerating front matter via Claude API...")
     try:
-        meta = generate_front_matter(body, api_key)
+        meta = generate_front_matter(body, api_key, tmdb_context=tmdb_context)
     except (json.JSONDecodeError, anthropic.APIError) as e:
         print(f"Error generating front matter: {e}")
         sys.exit(1)
