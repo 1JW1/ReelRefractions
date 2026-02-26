@@ -546,6 +546,7 @@ a:hover {
   font-size: 0.8rem;
   text-decoration: none;
   transition: background 0.2s;
+  white-space: nowrap;
 }
 
 .post-tags li a:hover {
@@ -1429,8 +1430,8 @@ input:focus-visible {
   font-family: var(--font-heading);
   font-size: 1rem;
   font-weight: 700;
-  letter-spacing: 0.03em;
-  color: var(--text-muted);
+  letter-spacing: 0.05em;
+  color: var(--text-color);
   text-transform: uppercase;
   margin: 0 0 1rem;
 }
@@ -1446,7 +1447,7 @@ input:focus-visible {
   flex-direction: column;
   background: var(--card-bg);
   border: 1px solid var(--border-color);
-  border-radius: 6px;
+  border-radius: 10px;
   overflow: hidden;
   text-decoration: none;
   transition: background 0.2s, border-color 0.2s;
