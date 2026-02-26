@@ -109,10 +109,6 @@ menu:
       name: Tags
       url: /tags/
       weight: 25
-    - identifier: search
-      name: Search
-      url: /search/
-      weight: 30
 
 pygmentsUseClasses: true
 markup:
