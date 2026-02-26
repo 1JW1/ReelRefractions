@@ -18,12 +18,12 @@ spoiler: false
 review_type: "new-release"
 refraction_quote: "In a year when so many films have turned AI into the villain, Tron: Ares dares to be hopeful — and it's refreshing to watch."
 genre_lineage:
-  - title: "TRON (1982)"
-    note: "the source mythology, still unmatched for sheer conceptual audacity"
-  - title: "Blade Runner (1982)"
-    note: "neon-soaked world-building as emotional atmosphere"
-  - title: "The Matrix (1999)"
-    note: "digital reality as a philosophical mirror for the human condition"
+  - title: "Ghost in the Shell (1995)"
+    note: "identity dissolving into the digital — where Ares finds optimism, Ghost finds existential dread"
+  - title: "Dredd (2012)"
+    note: "franchise revival that stripped back to confidence in its own world, no apology for the spectacle"
+  - title: "Free Guy (2021)"
+    note: "an AI protagonist in a digital world coded as hopeful, not menacing — the same contrarian bet Ares makes"
 letterboxd_url: "https://letterboxd.com/1eb1/film/tron-ares/"
 ---
 

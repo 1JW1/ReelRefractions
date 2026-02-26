@@ -18,12 +18,12 @@ spoiler: false
 review_type: "new-release"
 refraction_quote: "In trying to be both heartfelt and explosive, Badlands ends up being neither — the action is routine, the story mechanical."
 genre_lineage:
-  - title: "Predator (1987)"
-    note: "the ur-text: dread, jungle, no sentiment whatsoever"
+  - title: "The Road Warrior (1981)"
+    note: "survival stripped to pure momentum, found-family without sentiment — what Badlands aimed for but weighted down"
+  - title: "Sicario (2015)"
+    note: "relentless desert menace that earns its bleakness by never overexplaining the emotional stakes"
   - title: "Prey (2022)"
-    note: "what a stripped-back franchise revival looks like when it works"
-  - title: "Ballerina (2025)"
-    note: "same problem: heavier narrative than the lean action premise can support"
+    note: "what a franchise revival looks like when it trusts the premise and kills the redemption arc"
 letterboxd_url: "https://letterboxd.com/1eb1/film/predator-badlands/"
 ---
 
