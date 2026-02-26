@@ -18,7 +18,7 @@ Requirements:
 The script:
     1. Reads the plain text body from the provided file or Google Docs URL
     2. Calls the Claude API to infer front matter (title, slug, description,
-       tags, categories, keywords, date)
+       summary, tags, review_type, rating, spoiler, refraction_quote, genre_lineage)
     3. Prints the inferred front matter for interactive review
     4. On confirmation, writes the final .md file to staging/<date>-<slug>/
     5. Copies images into the same directory
@@ -49,11 +49,15 @@ Given the blog post text below, generate Hugo-compatible front matter in JSON fo
 
 - title: The post title (include film name and year if mentioned)
 - slug: URL-friendly slug derived from the title (lowercase, hyphens)
-- description: One concise sentence for SEO/OpenGraph (max 160 characters)
-- tags: Array of relevant tags (film title, genre, actor names, themes — 4 to 10 tags)
-- categories: Array with one category — either "Film Reviews" or "Film" (use "Film Reviews" for review posts, "Film" for general discussion)
-- keywords: Array of SEO keywords (3 to 6 broad terms)
+- description: One punchy sentence for SEO/OpenGraph — reads like a trailer line, not a plot summary (max 160 characters)
+- summary: One analytical sentence that differs from description — where description is feeling, summary is argument
+- tags: Array of relevant tags (film title, genre, director full name, lead actor name — 4 to 8 tags; no generic tags like "Review")
 - cover_alt: Vivid, descriptive alt text for the cover image (describe a likely movie poster or promotional still — include character poses, colours, mood, and setting in one detailed sentence)
+- review_type: One of "new-release", "revisit", "retrospective", or "quick-take" — infer from writing style and context
+- refraction_quote: The single best sentence from the post that captures the feeling, not the plot — must work as a standalone pull quote or social share
+- genre_lineage: Array of 2–3 objects, each with "title" (film name + year, e.g. "Heat (1995)") and "note" (one clause on what connects it to the reviewed film)
+- rating: The reviewer's score as a string in "X / 5" format (e.g. "3.5 / 5") — find the verdict or score in the text
+- spoiler: Boolean — true if the post references specific plot events, endings, deaths, or twists; false if analysis is thematic or stylistic only
 
 Return ONLY valid JSON, no markdown fences, no explanation.
 
@@ -165,8 +169,8 @@ def generate_front_matter(body: str, api_key: str) -> dict:
     client = anthropic.Anthropic(api_key=api_key)
 
     message = client.messages.create(
-        model="claude-sonnet-4-5-20250929",
-        max_tokens=1024,
+        model="claude-sonnet-4-6",
+        max_tokens=1536,
         messages=[
             {
                 "role": "user",
@@ -185,16 +189,37 @@ def generate_front_matter(body: str, api_key: str) -> dict:
     return json.loads(response_text)
 
 
+_REVIEW_TYPE_TO_CATEGORY = {
+    "new-release": "New Releases",
+    "revisit": "Revisits",
+    "retrospective": "Retrospectives",
+    "quick-take": "Quick Takes",
+}
+
+
 def format_front_matter(meta: dict, cover_image: str, today: str, single_image: str = "", letterboxd_url: str = "") -> str:
     """Format metadata dict into Hugo YAML front matter."""
     tags = "\n".join(f'  - "{t}"' for t in meta.get("tags", []))
-    categories = "\n".join(f'  - "{c}"' for c in meta.get("categories", ["Film Reviews"]))
-    keywords = "\n".join(f'  - "{k}"' for k in meta.get("keywords", []))
+    review_type = meta.get("review_type", "new-release")
+    category = _REVIEW_TYPE_TO_CATEGORY.get(review_type, "New Releases")
     cover_alt = meta.get("cover_alt", "")
+    spoiler_val = "true" if meta.get("spoiler", False) else "false"
+    refraction_quote = meta.get("refraction_quote", "").replace('"', '\\"')
+    summary = meta.get("summary", meta["description"]).replace('"', '\\"')
 
     single_image_lines = ""
     if single_image:
         single_image_lines = f'\n  singleImage: "{single_image}"\n  singleAlt: ""'
+
+    if meta.get("genre_lineage"):
+        gl_lines = []
+        for entry in meta["genre_lineage"]:
+            t = entry.get("title", "").replace('"', '\\"')
+            n = entry.get("note", "").replace('"', '\\"')
+            gl_lines.append(f'  - title: "{t}"\n    note: "{n}"')
+        genre_lineage_block = "genre_lineage:\n" + "\n".join(gl_lines)
+    else:
+        genre_lineage_block = "genre_lineage: []"
 
     return f"""---
 title: "{meta['title']}"
@@ -206,9 +231,7 @@ description: "{meta['description']}"
 tags:
 {tags}
 categories:
-{categories}
-keywords:
-{keywords}
+  - "{category}"
 showToc: false
 cover:
   image: "{cover_image}"
@@ -216,7 +239,12 @@ cover:
   caption: ""{single_image_lines}
   relative: true
 letterboxd_url: "{letterboxd_url}"
-summary: "{meta['description']}"
+summary: "{summary}"
+rating: "{meta.get('rating', '')}"
+spoiler: {spoiler_val}
+review_type: "{review_type}"
+refraction_quote: "{refraction_quote}"
+{genre_lineage_block}
 ---"""
 
 
@@ -323,7 +351,7 @@ def main():
 
     # Interactive confirmation
     while True:
-        choice = input("\n[C]onfirm, [E]dit title/description, or [Q]uit? ").strip().lower()
+        choice = input("\n[C]onfirm, [E]dit fields, or [Q]uit? ").strip().lower()
         if choice == "c":
             break
         elif choice == "e":
@@ -339,6 +367,20 @@ def main():
             new_alt = input(f"  Cover alt [{meta.get('cover_alt', '')}]: ").strip()
             if new_alt:
                 meta["cover_alt"] = new_alt
+            print("  Review type options: new-release, revisit, retrospective, quick-take")
+            new_type = input(f"  Review type [{meta.get('review_type', 'new-release')}]: ").strip()
+            if new_type in ("new-release", "revisit", "retrospective", "quick-take"):
+                meta["review_type"] = new_type
+            elif new_type:
+                print(f"  Invalid review type '{new_type}' — keeping current value.")
+            new_rating = input(f"  Rating (e.g. 3.5 / 5) [{meta.get('rating', '')}]: ").strip()
+            if new_rating:
+                meta["rating"] = new_rating
+            current_quote = meta.get("refraction_quote", "")
+            preview = (current_quote[:60] + "...") if len(current_quote) > 60 else current_quote
+            new_quote = input(f"  Refraction quote [{preview}]: ").strip()
+            if new_quote:
+                meta["refraction_quote"] = new_quote
             front_matter = format_front_matter(meta, cover_name, today, single_image=article_cover_name, letterboxd_url=args.letterboxd)
             print("\nUpdated front matter:")
             print(front_matter)
