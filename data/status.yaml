@@ -1,0 +1,4 @@
+# Site status data
+# just_watched has been removed — the sidebar widget now fetches live from
+# the Letterboxd RSS feed (https://letterboxd.com/{letterboxdUsername}/rss/).
+# Configure the username in hugo.yaml under params.letterboxdUsername.

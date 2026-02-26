@@ -37,15 +37,29 @@
 {{- partial "home_info.html" . }}
 {{- end }}
 
+{{- if .IsHome }}
+<div class="feed-search-wrap">
+  <div class="feed-search-inner">
+    <svg class="feed-search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+      <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" />
+    </svg>
+    <input id="feed-search" type="search" placeholder="Search reviews…" autocomplete="off" maxlength="64" aria-label="Search reviews">
+  </div>
+</div>
+<p id="feed-no-results" style="display:none">No reviews match that search.</p>
+{{- end }}
+
 <div class="post-feed">
 {{- range $index, $page := $paginator.Pages }}
-<article class="post-card">
+<article class="post-card" data-search="{{ $page.Title | lower }} {{ $page.Description | default "" | lower }} {{ $page.Params.review_type | default "" | lower }}{{ with $page.Params.tags }} {{ delimit . " " | lower }}{{ end }}">
   {{- $isHidden := ($page.Param "cover.hiddenInList") | default ($page.Param "cover.hidden") | default false }}
   {{- if not $isHidden }}
   {{- with $page.Params.cover.image }}
+  {{- $img := $page.Resources.Get . }}
+  {{- $alt := $page.Params.cover.alt | default $page.Title }}
+  {{- $isExternal := or (hasPrefix . "http://") (hasPrefix . "https://") }}
+  {{- if or $img $isExternal }}
   <div class="post-card-cover">
-    {{- $img := $page.Resources.GetMatch . }}
-    {{- $alt := $page.Params.cover.alt | default $page.Title }}
     {{- if $img }}
       {{- $sizes := slice "360" "480" "720" "1080" }}
       {{- $processable := slice "jpg" "jpeg" "png" "tif" "bmp" "gif" "webp" }}
@@ -65,15 +79,47 @@
       <img loading="lazy" decoding="async" src="{{ $img.RelPermalink }}" alt="{{ $alt }}" />
       {{- end }}
     {{- else }}
-    <img loading="lazy" decoding="async" src="{{ . | absURL }}" alt="{{ $alt }}" />
+    <img loading="lazy" decoding="async" src="{{ . }}" alt="{{ $alt }}" />
+    {{- end }}
+    {{/* Rating badge — top-right corner of cover image */}}
+    {{- if $page.Params.rating }}
+    <span class="rating-badge" aria-label="Rating: {{ $page.Params.rating }}">{{ $page.Params.rating }}</span>
     {{- end }}
   </div>
   {{- end }}
   {{- end }}
+  {{- end }}
   <div class="post-card-body">
+    {{/* Chips row — review type and spoiler status */}}
+    {{- $hasChips := or $page.Params.review_type (isset $page.Params "spoiler") }}
+    {{- if $hasChips }}
+    <div class="post-card-chips">
+      {{- if $page.Params.review_type }}
+      {{- $rt := $page.Params.review_type }}
+      <span class="review-type-chip review-type-{{ $rt }}">
+        {{- if eq $rt "quick-take" }}Quick Take
+        {{- else if eq $rt "revisit" }}Revisit
+        {{- else if eq $rt "retrospective" }}Retrospective
+        {{- else }}Review
+        {{- end -}}
+      </span>
+      {{- end }}
+      {{- if isset $page.Params "spoiler" }}
+        {{- if $page.Params.spoiler }}
+        <span class="spoiler-chip" title="This review contains spoilers">Spoilers</span>
+        {{- else }}
+        <span class="no-spoiler-chip" title="This review is spoiler-free">Spoiler-free</span>
+        {{- end }}
+      {{- end }}
+    </div>
+    {{- end }}
     <h2 class="post-card-title">
       <a href="{{ .Permalink }}">{{ .Title }}</a>
     </h2>
+    {{/* The Refraction pull-quote — hook sentence, shown first for scroll-culture readers */}}
+    {{- if $page.Params.refraction_quote }}
+    <p class="post-card-refraction">&ldquo;{{ $page.Params.refraction_quote }}&rdquo;</p>
+    {{- end }}
     <div class="post-card-meta">
       <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format (site.Params.DateFormat | default "January 2, 2006") }}</time>
       {{- if site.Params.ShowReadingTime }}
@@ -81,6 +127,7 @@
       <span>{{ .ReadingTime }} min read</span>
       {{- end }}
     </div>
+    {{/* Description — secondary context for deliberate readers */}}
     {{- if .Description }}
     <p class="post-card-description">{{ .Description }}</p>
     {{- else if .Summary }}
@@ -109,6 +156,28 @@
 </footer>
 {{- end }}
 
+{{- end }}
+
+{{- if .IsHome }}
+<script>
+(function () {
+  var input = document.getElementById('feed-search');
+  if (!input) return;
+  var cards = Array.from(document.querySelectorAll('.post-card'));
+  var noResults = document.getElementById('feed-no-results');
+
+  input.addEventListener('input', function () {
+    var q = this.value.toLowerCase().trim();
+    var visible = 0;
+    cards.forEach(function (card) {
+      var match = !q || (card.dataset.search || '').indexOf(q) !== -1;
+      card.style.display = match ? '' : 'none';
+      if (match) visible++;
+    });
+    if (noResults) noResults.style.display = visible === 0 && q ? '' : 'none';
+  });
+}());
+</script>
 {{- end }}
 
 {{- end }}{{- /* end main */ -}}

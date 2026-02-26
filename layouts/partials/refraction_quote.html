@@ -1,0 +1,12 @@
+{{/*
+  The Refraction Pull-Quote
+  -------------------------
+  Displays the single best sentence from the review as a large
+  styled pull-quote beneath the post header. Set via front matter:
+  refraction_quote: "Your chosen sentence here."
+*/}}
+{{- if .Params.refraction_quote }}
+<blockquote class="refraction-quote">
+  <p>{{ .Params.refraction_quote }}</p>
+</blockquote>
+{{- end }}

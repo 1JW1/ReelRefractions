@@ -1,0 +1,34 @@
+{{/*
+  More Like This — Related Posts
+  ------------------------------
+  Uses Hugo's built-in related content to surface up to 3 posts
+  that share tags or categories with the current post.
+  Appears after the post content, before the newsletter.
+*/}}
+{{- $related := where (.Site.RegularPages.Related .) "Permalink" "ne" .Permalink | first 3 }}
+{{- if $related }}
+<div class="related-posts" aria-label="More like this">
+  <h3 class="related-posts-heading">More Like This</h3>
+  <div class="related-posts-grid">
+    {{- range $related }}
+    {{- $relPage := . }}
+    <a href="{{ $relPage.RelPermalink }}" class="related-post-card">
+      {{- with $relPage.Params.cover.image }}
+        {{- $coverImg := $relPage.Resources.GetMatch . }}
+        {{- if $coverImg }}
+          <img class="related-post-thumb"
+               src="{{ ($coverImg.Resize "360x webp").RelPermalink }}"
+               alt="{{ $relPage.Params.cover.alt | default $relPage.Title }}"
+               width="360" height="203"
+               loading="lazy" decoding="async" />
+        {{- end }}
+      {{- end }}
+      <div class="related-post-info">
+        <span class="related-post-title">{{ $relPage.Title }}</span>
+        <time class="related-post-date" datetime="{{ $relPage.Date.Format "2006-01-02" }}">{{ $relPage.Date.Format "Jan 2006" }}</time>
+      </div>
+    </a>
+    {{- end }}
+  </div>
+</div>
+{{- end }}

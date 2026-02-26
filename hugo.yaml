@@ -24,8 +24,8 @@ outputs:
 params:
   env: production
   title: Reel Refractions
-  description: "The home of my spontaneous reflections on cinema — emotional, instinctive, and sometimes messy, just like film itself."
-  keywords: [Blog, Film, Cinema, Reviews]
+  description: "Feeling-first film criticism by Erwin Bernard — new releases, classic retrospectives, and revisits worth your time."
+  keywords: [Film Reviews, Cinema, Movie Criticism, Film Blog, New Releases, Classic Films, Erwin Bernard]
   author: Erwin Bernard
   images: []
   DateFormat: "January 2, 2006"
@@ -50,8 +50,11 @@ params:
 
   contactEmail: "reel-refractions@gmail.com"
 
-  # Buttondown newsletter — set URL after account setup
-  buttondownURL: ""
+  # Letterboxd RSS — set to your Letterboxd username to power the Just Watched sidebar widget
+  letterboxdUsername: "1eb1"
+
+  # Buttondown newsletter
+  buttondownURL: "https://buttondown.com/reel-refractions"
 
   assets:
     theme_color: "#001B2E"
@@ -94,10 +97,6 @@ menu:
       name: About
       url: /about/
       weight: 10
-    - identifier: vault
-      name: The Vault
-      url: /vault/
-      weight: 15
     - identifier: categories
       name: Categories
       url: /categories/

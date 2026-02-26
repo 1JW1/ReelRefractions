@@ -1,0 +1,40 @@
+{{/*
+  JSON-LD Review Schema
+  --------------------
+  Outputs structured data for film review posts so Google can
+  generate rich results (star ratings) in search results.
+  Requires front matter: rating (e.g. "3.5 / 5"), title, date, description
+*/}}
+{{- if and .IsPage .Params.rating }}
+{{- $ratingRaw := .Params.rating }}
+{{- $ratingVal := index (split $ratingRaw " / ") 0 }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Review",
+  "name": {{ .Title | jsonify }},
+  "reviewBody": {{ .Description | jsonify }},
+  "datePublished": "{{ .Date.Format "2006-01-02" }}",
+  "author": {
+    "@type": "Person",
+    "name": "Erwin Bernard",
+    "url": "https://reel-refractions.com/about/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Reel Refractions",
+    "url": "https://reel-refractions.com/"
+  },
+  "reviewRating": {
+    "@type": "Rating",
+    "ratingValue": {{ $ratingVal }},
+    "bestRating": 5,
+    "worstRating": 1
+  },
+  "itemReviewed": {
+    "@type": "Movie",
+    "name": {{ .Params.film_title | default .Title | jsonify }}
+  }
+}
+</script>
+{{- end }}

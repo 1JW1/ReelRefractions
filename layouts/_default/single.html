@@ -28,6 +28,10 @@
     </div>
     {{- end }}
   </header>
+
+  {{/* The Refraction — pull-quote from front matter */}}
+  {{- partial "refraction_quote.html" . }}
+
   {{- $isHidden := (.Param "cover.hiddenInSingle") | default (.Param "cover.hidden") | default false }}
   {{- partial "cover.html" (dict "cxt" . "IsSingle" true "isHidden" $isHidden) }}
   {{- if (.Param "ShowToc") }}
@@ -44,6 +48,9 @@
     {{- else }}{{ .Content }}{{ end }}
   </div>
   {{- end }}
+
+  {{/* Genre lineage — "In Context" box */}}
+  {{- partial "genre_lineage.html" . }}
 
   {{/* Join the Conversation — sits directly beneath the verdict */}}
   {{- if not (.Param "hideComments") }}
@@ -64,6 +71,9 @@
     {{- partial "share_icons.html" . -}}
     {{- end }}
   </footer>
+
+  {{/* More like this — related posts */}}
+  {{- partial "related_posts.html" . }}
 
   {{/* Newsletter signup */}}
   {{- partial "newsletter.html" . }}
