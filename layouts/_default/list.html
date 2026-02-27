@@ -49,6 +49,10 @@
 <p id="feed-no-results" style="display:none">No reviews match that search.</p>
 {{- end }}
 
+{{- if and .IsHome (eq $paginator.PageNumber 1) }}
+{{- partial "recent_watches.html" . -}}
+{{- end }}
+
 <div class="post-feed">
 {{- range $index, $page := $paginator.Pages }}
 <article class="post-card" data-search="{{ $page.Title | lower }} {{ $page.Description | default "" | lower }} {{ $page.Params.review_type | default "" | lower }}{{ with $page.Params.tags }} {{ delimit . " " | lower }}{{ end }}">

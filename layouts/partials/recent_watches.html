@@ -1,0 +1,72 @@
+{{/*
+  Recent Watches — Letterboxd RSS Tile Grid
+  ------------------------------------------
+  Fetches the Letterboxd diary RSS feed at build time and renders the 8 most
+  recent entries as poster tiles on the homepage. Each tile links out to the
+  Letterboxd diary entry (new tab). Silently degrades if the fetch fails.
+
+  Data extracted per RSS item:
+    - Film title and year (from <title>: "Film Name, Year - ★★★★½")
+    - Star rating          (from <title> after " - ")
+    - Poster image URL     (from <img src="..."> in <description> HTML)
+    - Diary entry link     (from <link>)
+
+  Configure via hugo.yaml:
+    params:
+      letterboxdUsername: "your-letterboxd-username"
+*/}}
+{{- $username := site.Params.letterboxdUsername -}}
+{{- if $username -}}
+  {{- $url := printf "https://letterboxd.com/%s/rss/" $username -}}
+  {{- with try (resources.GetRemote $url) -}}
+    {{- with .Err -}}
+      {{/* RSS fetch failed — render nothing, degrade silently */}}
+    {{- else -}}
+      {{- $feed := .Value | transform.Unmarshal -}}
+      {{- $items := $feed.channel.item -}}
+      {{- if $items -}}
+<section class="recent-watches" aria-label="Recently watched">
+  <h2 class="recent-watches-heading">Recently Watched</h2>
+  <div class="watch-tiles-grid">
+        {{- range first 8 $items -}}
+          {{/* Parse "Film Name, Year - ★★★★½" from the RSS <title> */}}
+          {{- $raw := .title -}}
+          {{- $dashParts := split $raw " - " -}}
+          {{- $filmAndYear := index $dashParts 0 -}}
+          {{- $stars := "" -}}
+          {{- if gt (len $dashParts) 1 -}}
+            {{- $stars = index $dashParts 1 -}}
+          {{- end -}}
+          {{- $commaParts := split $filmAndYear ", " -}}
+          {{- $filmTitle := delimit (first (sub (len $commaParts) 1) $commaParts) ", " -}}
+          {{- $filmYear := index $commaParts (sub (len $commaParts) 1) -}}
+          {{/* Extract poster image URL from RSS <description> HTML */}}
+          {{- $imgSrc := "" -}}
+          {{- $imgMatches := findRE `src="(https://[^"]+)"` .description -}}
+          {{- if $imgMatches -}}
+            {{- $imgSrc = replaceRE `src="(https://[^"]+)"` "$1" (index $imgMatches 0) -}}
+          {{- end -}}
+    <a href="{{ .link }}" class="watch-tile" target="_blank" rel="noopener noreferrer"
+       title="{{ $filmTitle }} ({{ $filmYear }}){{ if $stars }} — {{ $stars }}{{ end }}">
+      <div class="watch-tile-poster">
+        {{- if $imgSrc }}
+        <img src="{{ $imgSrc }}" alt="{{ $filmTitle }} poster" loading="lazy" decoding="async">
+        {{- else }}
+        <div class="watch-tile-placeholder">{{ substr $filmTitle 0 1 }}</div>
+        {{- end }}
+        {{- if $stars }}
+        <span class="watch-tile-rating" aria-label="Rating: {{ $stars }}">{{ $stars }}</span>
+        {{- end }}
+      </div>
+      <div class="watch-tile-info">
+        <span class="watch-tile-title">{{ $filmTitle }}</span>
+        <span class="watch-tile-year">{{ $filmYear }}</span>
+      </div>
+    </a>
+        {{- end -}}
+  </div>
+</section>
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
