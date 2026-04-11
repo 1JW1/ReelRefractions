@@ -11,21 +11,22 @@ cover:
   singleImage: "theDramaStill.jpg"
   alt: "Zendaya and Robert Pattinson in a candid promotional photo, Pattinson wearing round glasses with curly brown hair, Zendaya smiling beside him with her left hand raised to display an engagement ring"
   singleAlt: "Zendaya and Robert Pattinson seated at a white dining table in a dimly lit restaurant, Pattinson smiling and holding a wine glass, Zendaya composed beside him, warm wall sconces casting amber light behind them"
-  caption: "Image courtesy of Mabumbe"
+  caption: "Image courtesy of [Mabumbe](https://mabumbe.com/movies/titles/241147/the-drama)"
   relative: true
 description: "Sharp, warm, and funnier than it has any right to be. The best film of the year. Go in knowing nothing."
 summary: "Kristoffer Borgli handles genuinely heavy subject matter with comedic restraint and precision. Early A24 energy at its most confident."
 rating: "4 / 5"
 spoiler: false
 review_type: "new-release"
-refraction_quote: "The whole screening was laughing. That's not nothing."
+refraction_quote: "Heavy subject. Light touch. Devastating timing."
 genre_lineage:
   - title: "Ordinary People (1980)"
-    note: "carries the same emotional weight in its subject matter, but without the comedic relief — shows what this film chose not to be"
+    note: "Carries the same emotional weight in its subject matter, but without the comedic relief — shows what this film chose not to be"
   - title: "The Lobster (2015)"
     note: "A24 handling heavy emotional territory through a comic lens, though colder and more detached where this stays warm"
   - title: "Marriage Story (2019)"
-    note: "another A24 drama that found unexpected laughs inside genuine devastation, though more upfront about its stakes"
+    note: "Another A24 drama that found unexpected laughs inside genuine devastation, though more upfront about its stakes"
+letterboxd_url: "https://boxd.it/dW4k0T"
 ---
 
 There's a version of this review that doesn't exist, and it's the useful one — the one where I can actually tell you what happens. The reveal at the heart of *The Drama* is so central to how the whole thing unfolds that writing around it feels like describing a magic trick by only talking about the magician's sleeves. So instead, I'll tell you what it felt like.
