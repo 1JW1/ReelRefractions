@@ -58,3 +58,5 @@ __pycache__/
 staging/
 
 # Keep lockfiles (package-lock.json, yarn.lock) - do not ignore
+
+/WRITING_GUIDE.md
