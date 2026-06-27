@@ -43,7 +43,7 @@ A film that comes to mind when I watch this is *Knight of Cups* starring Christi
 
 ## Verdict
 
-**3.5 / 5**
+**3.5 / 5** — It's a story to be inhabited rather than solved, more concerned with personal hells than adapting Dante literally.
 
 **Best for:** those who are tired of their films being procedural.
 
