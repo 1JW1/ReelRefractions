@@ -1,7 +1,7 @@
 ---
 title: "In the Hand of Dante (2025)"
 date: 2026-06-27T12:00:00Z
-draft: true
+draft: false
 author: "Erwin Bernard"
 tags: ["In the Hand of Dante", "Drama", "Crime", "Art Cinema", "Julian Schnabel", "Oscar Isaac", "Gal Gadot", "Gerard Butler"]
 categories: ["New Releases"]
