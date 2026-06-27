@@ -40,3 +40,11 @@ It’s not a story to be solved but to be inhabited and more concerned with peop
 Gal Gadot is not horrible in this at all but perfectly cast, as some have said, and I think she’s at her best in this feature. She carries the most punch when she’s used sparingly which this film fully utilises, to full effect, giving the right amount of weight to the scenes she inhabits.
 
 A film that comes to mind when I watch this is *Knight of Cups* starring Christian Bale. Visually stunning and thematically brilliant and non-linear, more so than this film but I think they inhabit the same ecosystem.
+
+## Verdict
+
+**3.5 / 5**
+
+**Best for:** those who are tired of their films being procedural.
+
+**Skip if:** you like your films to be procedural.
