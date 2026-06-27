@@ -13,8 +13,8 @@ cover:
   singleAlt: "Oscar Isaac and Gal Gadot embrace beside the sea in period costume, framed against a pale horizon."
   caption: "Image courtesy of [TMDb](https://www.themoviedb.org/)"
   relative: true
-description: "A strange, art-forward Netflix film that rewards surrender more than explanation."
-summary: "Julian Schnabel's Dante film is less a puzzle to solve than a personal hell to inhabit, carried by strong visual conviction."
+description: "Don't be intimidated by the runtime or the negativity. If the trailers intrigued you, this film rewards that curiosity."
+summary: "Julian Schnabel's Dante film has a strong artistic vision, leaning further toward art than Netflix usually allows."
 rating: "3.5 / 5"
 spoiler: false
 review_type: "new-release"
@@ -29,6 +29,14 @@ genre_lineage:
 letterboxd_url: ""
 ---
 
-Gal Gadot is perfectly cast, as some have said, and I think she's at her best in this feature when used sparingly.
+TLDR: Don't be intimidated by the runtime or the negativity. The trailers capture what this film is about and if you felt intrigued because of it, you will, in my opinion, be rewarded.
 
-Visually stunning and thematically rich, it shares an ecosystem with *Knight of Cups*: non-linear, searching, and more interested in spiritual atmosphere than clean explanation.
+Naysayers be damned and may their pessimism crash upon the shores of damnation, never to see... ok quite enough of that haha.
+
+This is a film with a strong artistic vision and style that is surprising for a Netflix film. Netflix, in my view, has always tried to play it safe by appealing to the masses with a veneer of artistry but this is one that leans more towards art. I've most likely missed out many that have leaned this way but forgive me for not watching much of Netflix, and I'm curious about what comes next.
+
+It's not a story to be solved but to be inhabited and more concerned with people's personal hells than adapting Dante's story, and it's all the better for it and what I expected.
+
+Gal Gadot is perfectly cast, as some have said, and I think she's at her best in this feature. She carries the most punch when she's used sparingly, which this film uses to full effect, giving the right amount of weight to the scenes she inhabits.
+
+A film that comes to mind when I watch this is *Knight of Cups*, starring Christian Bale. Visually stunning and thematically brilliant and non-linear, more so than this film, but I think they inhabit the same ecosystem.
