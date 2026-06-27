@@ -15,7 +15,7 @@ cover:
   relative: true
 description: "Don't be intimidated by the runtime or the negativity. If the trailers intrigued you, this film rewards that curiosity."
 summary: "Julian Schnabel's Dante film has a strong artistic vision, leaning further toward art than Netflix usually allows."
-rating: "3.5 / 5"
+rating: "3 / 5"
 spoiler: false
 review_type: "new-release"
 refraction_quote: "It's a story to be inhabited rather than solved, more concerned with personal hells than adapting Dante literally."
@@ -41,9 +41,11 @@ Gal Gadot is not horrible in this at all but perfectly cast, as some have said, 
 
 A film that comes to mind when I watch this is *Knight of Cups* starring Christian Bale. Visually stunning and thematically brilliant and non-linear, more so than this film but I think they inhabit the same ecosystem.
 
+For all its strengths, the ending ultimately loses me. Where the film had previously trusted its imagery, ambiguity and poetry, the final act leans too heavily into melodrama and emotional cliché. Rather than letting its themes resonate, it begins to underline them, and in doing so loses some of the mystery that made the preceding two hours so compelling. It doesn’t undo what came before, but it does leave the film on a less assured note than it deserved.
+
 ## Verdict
 
-**3.5 / 5** — It's a story to be inhabited rather than solved, more concerned with personal hells than adapting Dante literally.
+**3 / 5** — It's a story to be inhabited rather than solved, more concerned with personal hells than adapting Dante literally.
 
 **Best for:** those who are tired of their films being procedural.
 
